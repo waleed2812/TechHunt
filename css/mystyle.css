@@ -232,3 +232,6 @@ img {
 #lab{
     color: white;
 }
+#checkoutform span .btn:hover {
+    background-color: none;
+}
