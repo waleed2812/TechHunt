@@ -235,3 +235,77 @@ img {
 #checkoutform span .btn:hover {
     background-color: none;
 }
+
+#motherboard
+    /* breadcrumb */
+ul.breadcrumb {
+    width: auto;
+    border-radius: 0px;
+    padding: 10px 16px;
+    list-style: none;
+    background-color:white;
+    border: 1px solid rgb(155, 155, 155);
+}
+ul.breadcrumb li {
+    display: inline;
+    font-size: 12px;
+}
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+/*  */
+.accordion__button{
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: lightgray;
+    color: white;
+    text-align: left;
+    transition: background 0.2s;
+}
+.accordion__button::after{
+    content:'\25be' ;
+    float: right;
+    transform:scale(1.5) ;
+}
+.accordion__button--active{
+    overflow:default;
+    background: #555555;
+}
+.accordion__button--active::after{
+    content: '\25b4';
+}
+
+.accordion__content{
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s;
+    padding: 0 15px;
+    font-family: sans-serif;
+    background-color: white;
+
+}
+.accordion__content a{
+    padding: 20px;
+    font-size: 12px;
+    font-family: 'Quicksand', sans-serif;
+    margin-bottom: 5px;
+
+}
+.accordion__content .form-check .form-check-label{
+    color: rgb(44, 44, 235);
+    font-family: 'Quicksand', sans-serif;
+}
