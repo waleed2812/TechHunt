@@ -150,7 +150,6 @@ img {
 /*Latest Products Area*/
 .lph1 {
     font-size: 50px;
-    text-align: center;
     color: darkslategrey;
     font-family: "Calibri",serif;
     font-weight: 100;
@@ -214,13 +213,13 @@ img {
     box-shadow: 5px 10px 5px #888888;
 }
 /* for left side columns */
-#up{
+#up1,#up2{
     width: 50%;
     color: #f4f4f4;
     margin: 0 auto;
 }
 /* for right side colums */
-#down{
+#down1,#down2{
     width: 50%;
     color: #f4f4f4;
 }
@@ -229,14 +228,14 @@ img {
 }
 #datepicker > span:hover{cursor: pointer;}
 
-#lab{
+#lab,#lab1,#lab2,#lab3,#lab4{
     color: white;
 }
 #checkoutform span .btn:hover {
     background-color: none;
 }
 
-#motherboard
+/*#motherboard*/
     /* breadcrumb */
 ul.breadcrumb {
     width: auto;
