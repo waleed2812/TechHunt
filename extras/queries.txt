@@ -1,0 +1,12 @@
+CREATE TABLE user(
+	email VARCHAR(70) PRIMARY KEY,
+	first _name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30) NOT NULL,
+	password VARCHAR(128) NOT NULL,
+    Phone INT Not Null,
+    Gender VARCHAR(2) Not Null,
+    Address VARCHAR(512) Not Null,
+    City VARCHAR(50) Not Null,
+    Country VARCHAR(20) Not Null,
+    Zip INT Not Null
+)

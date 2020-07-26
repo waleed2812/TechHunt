@@ -309,3 +309,9 @@ ul.breadcrumb li a:hover {
     color: rgb(44, 44, 235);
     font-family: 'Quicksand', sans-serif;
 }
+#img{
+    max-width: 100%;
+}
+.error{
+    background-color: white;
+}

@@ -17,3 +17,4 @@ function scrollToTop(scrollDuration) {
             else clearInterval(scrollInterval);
         },15);
 }
+
