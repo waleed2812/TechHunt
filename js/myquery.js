@@ -1,27 +1,35 @@
 $(document).ready(function () {
 
+    // Account Settings Form
     $("#formaccount").submit(function (e) {
-        $fname = $("#fname").val();
-        $lname = $("#lname").val();
 
-        if ( !($fname.match(/[a-zA-Z]/g)) )
+        if ($("#fname").val().match(/[^A-Za-z\s]/g) !== null)
         {
+
             $("#fname").addClass("border-danger");
+            $("#fname").siblings("label").append(
+                '<span style="color:red"> (Only Alphabets)</span>');
             return false;
         }
 
-        if ( !($lname.match(/[a-zA-Z]/g)) )
+        if ($("#lname").val().match(/[^A-Za-z\s]/g) !== null)
         {
             $("#lname").addClass("border-danger");
+            $("#lname").siblings("label").append(
+                '<span style="color:red"> (Only Alphabets)</span>');
             return false;
         }
 
-
     })
-    $("input").click(function () {
+
+    $("input").keyup(function () {
         $("#fname").removeClass("border-danger");
+        $("#fname").siblings("label").children('span').remove();
+        $("#lname").removeClass("border-danger");
+        $("#lname").siblings("label").children('span').remove();
 
     })
+    // Cart Remove
     $("button").click(function () {
 
         if ($( this ).html() === "See Details")
@@ -42,6 +50,7 @@ $(document).ready(function () {
             }
             calprice();
         }
+        // Remove from Wishlist
         if ($( this ).html() === "Remove From Wishlist")
         {
             $cartDiv = $("#wishlist div");
