@@ -22,13 +22,63 @@ $(document).ready(function () {
 
     })
 
+    // Country Code Selector
+    var selected_phone;
+    $("#phone_code").ready(function () {
+        selected_phone = $("#phone_code option:selected");
+        selected_phone.attr("label",$("#phone_code").val());
+    })
+    $("#phone_code").change(function(){
+        selected_phone.removeAttr("label");
+        selected_phone = $("#phone_code option:selected");
+        selected_phone.attr("label",$("#phone_code").val());
+    });
+
+    // Phone number Input
+    $("#phone").on('input',function () {
+        let pattern = new RegExp(/[^0-9]/g);
+        let phn = $("#phone").val().replace(pattern,"");
+        $("#phone").val(phn);
+    })
+
+    // Password Update Form
+    $("#password_update_form").submit(function (e) {
+
+        if ($("#npassword").val() !== $("#cpassword").val())
+        {
+            $("#cpassword").addClass("border-danger");
+            $("#npassword").addClass("border-danger");
+            $("#npassword").siblings("label").append(
+                '<span style="color:red"> (Password Does Not Match)</span>');
+            return false;
+        }
+        // Password matching expression. Password must be at least 8 characters, no more than 127 characters, and must
+        // include at least one upper case letter, one lower case letter, and one numeric digit.
+        var password_validation = new RegExp(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
+
+        if(!password_validation.test($("#npassword").val()))
+        {
+            $("#cpassword").addClass("border-danger");
+            $("#npassword").addClass("border-danger");
+            $("#npassword").siblings("label").append(
+                '<span style="color:red;font-size: 14px"> ' +
+                '(Must uppercase, lowercase, and digit.)</span>');
+            return false;
+        }
+
+    })
+
+    // Remove Errors Attributes
     $("input").keyup(function () {
         $("#fname").removeClass("border-danger");
         $("#fname").siblings("label").children('span').remove();
         $("#lname").removeClass("border-danger");
         $("#lname").siblings("label").children('span').remove();
-
+        $("#npassword").removeClass("border-danger");
+        $("#npassword").siblings("label").children('span').remove();
+        $("#cpassword").removeClass("border-danger");
     })
+
     // Cart Remove
     $("button").click(function () {
 
@@ -69,6 +119,7 @@ $(document).ready(function () {
 
     })
 
+    // Calculate Cart Price
     function cartload() {
         calprice();
     }
@@ -82,4 +133,4 @@ $(document).ready(function () {
         $("#total_price").html("Total: "+$sum);
     }
 
-})
+});
