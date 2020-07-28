@@ -209,16 +209,17 @@ img {
     width: 1100px;
     margin: 0 auto;
     height: 800px;
+    background-color: yellow;
     box-shadow: 5px 10px 5px #888888;
 }
 /* for left side columns */
-#up,#up1,#up2{
+#up1,#up2{
     width: 50%;
     color: #f4f4f4;
     margin: 0 auto;
 }
 /* for right side colums */
-#down1,#down2,#down{
+#down1,#down2{
     width: 50%;
     color: #f4f4f4;
 }

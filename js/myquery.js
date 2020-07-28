@@ -2,8 +2,9 @@ $(document).ready(function () {
 
     // Account Settings Form
     $("#formaccount").submit(function (e) {
+        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
 
-        if ($("#fname").val().match(/[^A-Za-z\s]/g) !== null)
+        if (name_regexp.test($("#fname").val()))
         {
 
             $("#fname").addClass("border-danger");
@@ -12,7 +13,7 @@ $(document).ready(function () {
             return false;
         }
 
-        if ($("#lname").val().match(/[^A-Za-z\s]/g) !== null)
+        if (name_regexp.test($("#lname").val()))
         {
             $("#lname").addClass("border-danger");
             $("#lname").siblings("label").append(
@@ -21,7 +22,28 @@ $(document).ready(function () {
         }
 
     })
+    // Checkout Form
+    $("#cartform").submit(function (e) {
+        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
 
+        if (name_regexp.test($("#fname").val()))
+        {
+
+            $("#fname").addClass("border-danger");
+            $("#fname").siblings("label").append(
+                '<span style="color:red;font-size: 11px"> (Only Alphabets)</span>');
+            return false;
+        }
+
+        if (name_regexp.test($("#lname").val()))
+        {
+            $("#lname").addClass("border-danger");
+            $("#lname").siblings("label").append(
+                '<span style="color:red;font-size: 11px"> (Only Alphabets)</span>');
+            return false;
+        }
+
+    })
     // Country Code Selector
     var selected_phone;
     $("#phone_code").ready(function () {
@@ -76,6 +98,8 @@ $(document).ready(function () {
         $("#lname").siblings("label").children('span').remove();
         $("#npassword").removeClass("border-danger");
         $("#npassword").siblings("label").children('span').remove();
+		$("#password").removeClass("border-danger");
+        $("#password").siblings("label").children('span').remove();
         $("#cpassword").removeClass("border-danger");
     })
 
@@ -118,19 +142,17 @@ $(document).ready(function () {
 
 
     })
-
-    // Calculate Cart Price
-    function cartload() {
-        calprice();
-    }
-    function calprice() {
-
-        var h2Tags =$("#cart h2");
-        $sum = 0;
-        for ($i = 0 ; h2Tags[$i] ; $i++)
-            $sum += parseFloat(h2Tags[$i].innerHTML.replace(/[^0-9]/g,""));
-
-        $("#total_price").html("Total: "+$sum);
-    }
-
 });
+// Calculate Cart Price
+function cartload() {
+    calprice();
+}
+function calprice() {
+
+    var h2Tags =$("#cart h2");
+    $sum = 0;
+    for ($i = 0 ; h2Tags[$i] ; $i++)
+        $sum += parseFloat(h2Tags[$i].innerHTML.replace(/[^0-9]/g,""));
+
+    $("#total_price").html("Total: "+$sum);
+}
