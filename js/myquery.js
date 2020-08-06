@@ -22,6 +22,7 @@ $(document).ready(function () {
         }
 
     })
+
     // Checkout Form
     $("#cartform").submit(function (e) {
         var name_regexp = new RegExp(/[^A-Za-z\s]/g);
@@ -44,17 +45,19 @@ $(document).ready(function () {
         }
 
     })
+
     // Country Code Selector
     var selected_phone;
     $("#phone_code").ready(function () {
         selected_phone = $("#phone_code option:selected");
         selected_phone.attr("label",$("#phone_code").val());
     })
+
     $("#phone_code").change(function(){
         selected_phone.removeAttr("label");
         selected_phone = $("#phone_code option:selected");
         selected_phone.attr("label",$("#phone_code").val());
-    });
+    })
 
     // Phone number Input
     $("#phone").on('input',function () {
@@ -107,34 +110,75 @@ $(document).ready(function () {
     $("button").click(function () {
 
         if ($( this ).html() === "See Details")
-            alert(this.id);
-
-        if ($( this ).html() === "Remove From Cart")
         {
-            $cartDiv = $("#cart div");
-            $divToRm = $( this ).parent().parent()[0];
+            $('body').append('<!--Item Description popup-->\n' +
+                '\n' +
+                '<div id="description" class="container bg-light">\n' +
+                '    <div class="row">\n' +
+                '        <button onclick="close_description()" class="btn btn-danger ml-auto"><i class="fa fa-close"></i></button>\n' +
+                '    </div>\n' +
+                '    <div class="row p-5">\n' +
+                '        <div class="col-sm-4">\n' +
+                '            <figure>\n' +
+                '                <img src="img/motherboard.jpg" height=auto width="100%">\n' +
+                '            </figure>\n' +
+                '        </div>\n' +
+                '        <div class="col-sm-5" >\n' +
+                '            <a href="">MSI H110M PRO-VH PLUS INTEL H110 MOTHERBOARD</a>\n' +
+                '            <div>\n' +
+                '                <p><span style="color: gray;">Category: </span>Motherboards > LGA Socket</p>\n' +
+                '                <p><span style="color: gray;">Code: </span>H110M PRO-VH PLUS</p>\n' +
+                '                <p>\n' +
+                '                    The PRO Series motherboards fit in any PC.\n' +
+                '                    Quality you can trust with top performance and clever business solutions are key aspects of these motherboards.\n' +
+                '                    Make your life easier and boost your business with the super stable, reliable and long-lasting PRO Series motherboards.\n' +
+                '                </p>\n' +
+                '                <ul style="margin-left: 10px;">\n' +
+                '                    <li>Supports 6th Gen Intel® Core™ / Pentium® / Celeron® processors</li>\n' +
+                '                    <li>Supports DDR4-2133 Memory</li>\n' +
+                '                    <li>DDR4 Boost: Give your DDR4 memory a performance boost</li>\n' +
+                '                    <li>USB 3.1 Gen1 + SATA 6Gb/s</li>\n' +
+                '                </ul>\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '        <div class="col-sm-3">\n' +
+                '            <p><span style="color: darkgray;">Availability: </span> In Stock</p>\n' +
+                '            <button class="btn btn-warning">Add to Cart <i class="fa fa-shopping-cart"></i></button>\n' +
+                '            <br><br>\n' +
+                '            <button class="btn btn-warning">Add to Wishlist</button>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>\n' +
+                '<!--./Item Description popup-->');
+        }
 
-            for ($i = 1 ; $cartDiv[$i] ; $i++)
+        else if ($( this ).html() === "Remove From Cart")
+        {
+            var cartDiv = $("#cart div");
+            var divToRm = $( this ).parent().parent()[0];
+
+            for (var i = 1 ; cartDiv[i] ; i++)
             {
-                if ($cartDiv[$i] === $divToRm)
+                if (cartDiv[i] === divToRm)
                 {
-                    $divToRm.remove();
+                    divToRm.remove();
                     break;
                 }
             }
             calprice();
         }
-        // Remove from Wishlist
-        if ($( this ).html() === "Remove From Wishlist")
-        {
-            $cartDiv = $("#wishlist div");
-            $divToRm = $( this ).parent().parent()[0];
 
-            for ($i = 1 ; $cartDiv[$i] ; $i++)
+        // Remove from Wishlist
+        else if ($( this ).html() === "Remove From Wishlist")
+        {
+            cartDiv = $("#wishlist div");
+            divToRm = $( this ).parent().parent()[0];
+
+            for (var i = 1 ; cartDiv[i] ; i++)
             {
-                if ($cartDiv[$i] === $divToRm)
+                if (cartDiv[i] === divToRm)
                 {
-                    $divToRm.remove();
+                    divToRm.remove();
                     break;
                 }
             }
@@ -143,16 +187,24 @@ $(document).ready(function () {
 
     })
 });
+
 // Calculate Cart Price
 function cartload() {
     calprice();
 }
+
+// Calculate price of items in cart
 function calprice() {
 
     var h2Tags =$("#cart h2");
-    $sum = 0;
-    for ($i = 0 ; h2Tags[$i] ; $i++)
-        $sum += parseFloat(h2Tags[$i].innerHTML.replace(/[^0-9]/g,""));
+    var sum = 0;
+    for (var i = 0 ; h2Tags[i] ; i++)
+        sum += parseFloat(h2Tags[i].innerHTML.replace(/[^0-9]/g,""));
 
-    $("#total_price").html("Total: "+$sum);
+    $("#total_price").html("Total: "+sum);
+}
+
+function close_description()
+{
+    $( '#description' ).remove();
 }

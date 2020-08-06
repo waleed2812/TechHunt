@@ -313,3 +313,15 @@ ul.breadcrumb li a:hover {
 .error{
     background-color: white;
 }
+
+/*Description of any item*/
+#description{
+
+    position:fixed;
+    left: 0;
+    right: 0;
+    top: 15%;
+    z-index: 1;
+    border : 3px solid black;
+
+}
