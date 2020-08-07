@@ -46,6 +46,79 @@ $(document).ready(function () {
 
     })
 
+    // Sign Up Form
+    $("#signupForm").submit(function (e) {
+
+        e.preventDefault();
+        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
+        if (name_regexp.test($("#fname").val()))
+        {
+            $("#fname").addClass("border-danger");
+            $("#fname").siblings("label").append(
+                '<span style="color:red"> (Only Alphabets)</span>');
+            return false;
+        }
+
+        if (name_regexp.test($("#lname").val()))
+        {
+            $("#lname").addClass("border-danger");
+            $("#lname").siblings("label").append(
+                '<span style="color:red"> (Only Alphabets)</span>');
+            return false;
+        }
+
+        if ($("#password").val() !== $("#cpassword").val())
+        {
+            $("#cpassword").addClass("border-danger");
+            $("#password").addClass("border-danger");
+            $("#password").siblings("label").append(
+                '<span style="color:red"> (Password Does Not Match)</span>');
+            return false;
+        }
+
+        var password_validation = new RegExp(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
+
+        if(!password_validation.test($("#password").val()))
+        {
+            $("#cpassword").addClass("border-danger");
+            $("#password").addClass("border-danger");
+            $("#password").siblings("label").append(
+                '<span style="color:red;font-size: 14px"> ' +
+                '(Must uppercase, lowercase, and digit.)</span>');
+            return false;
+        }
+
+
+        let email = $("#email").val();
+
+        let details_req = new XMLHttpRequest();
+
+        details_req.open('GET', 'php/isExisting.php?email='+email);
+
+        details_req.send();
+
+        let response = "";
+
+        details_req.onreadystatechange = function() {
+
+            if (details_req.readyState === 4 && details_req.status === 200)
+            {
+                response  = details_req.responseText;
+                console.log("Response: "+response);
+                if(response === "Exists")
+                {
+                    $("#email").addClass("border-danger");
+                    $("#email").siblings("label").append(
+                        '<span style="color:red;font-size: 14px"> ' +
+                        '(Email Already Exists.)</span>');
+                    return false;
+                }
+            }
+
+        };
+
+    });
+
     // Country Code Selector
     var selected_phone;
     $("#phone_code").ready(function () {
@@ -104,6 +177,9 @@ $(document).ready(function () {
 		$("#password").removeClass("border-danger");
         $("#password").siblings("label").children('span').remove();
         $("#cpassword").removeClass("border-danger");
+        $("#email").removeClass("border-danger");
+        $("#email").siblings("label").children('span').remove();
+
     })
 
     // Cart Remove
@@ -212,6 +288,7 @@ function add_to_wl(item_id)
     };
 
 }
+
 var inter;
 function show_popup(message)
 {
