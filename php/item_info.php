@@ -38,9 +38,11 @@ $selectresult = mysqli_fetch_array(mysqli_query($conn, $sql));
         </div>
         <div class="col-sm-3">
             <p><span style="color: darkgray;">Availability: </span> '.$selectresult[5].'</p>
-            <a class="btn btn-warning" name="'.$selectresult[0].'">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+            <a class="btn btn-warning" onclick="add_to_cart('.$selectresult[0].')">
+                Add to Cart <i class="fa fa-shopping-cart"></i>
+            </a>
             <br><br>
-            <a class="btn btn-warning" name="'.$selectresult[0].'">Add to Wishlist</a>
+            <a class="btn btn-warning" onclick="add_to_wl('.$selectresult[0].')">Add to Wishlist</a>
         </div>
     </div>
 </div>

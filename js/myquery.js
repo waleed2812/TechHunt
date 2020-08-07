@@ -161,19 +161,68 @@ $(document).ready(function () {
             }
         }
 
-        else if ($( this ).html() === "Add to Cart")
-        {
-
-        }
-
 
     })
 
 
 });
 
+// Add to cart
+function add_to_cart(item_id)
+{
+
+    let email = "waleed3072@gmail.com";
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('Get', 'php/addToCart.php?email='+email+'&item_id='+item_id);
+
+    details_req.send();
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            show_popup(details_req.responseText);
+        }
+
+    };
+
+}
+
+// Add to Wl
+function add_to_wl(item_id)
+{
+
+    let email = "waleed3072@gmail.com";
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('Get', 'php/addToWL.php?email='+email+'&item_id='+item_id);
+
+    details_req.send();
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            show_popup(details_req.responseText);
+        }
+
+    };
+
+}
+var inter;
+function show_popup(message)
+{
+    $('body').append('<div id="temp_popup" class="btn btn-warning position-fixed" ' +
+        'style="bottom: 1%;left: 1%;">'+message+'</div>');
+    $("#temp_popup").fadeOut(3000);
+}
+
 // Calculate Cart Price
 function cartload() {
+    get_items();
     calprice();
 }
 
@@ -201,4 +250,24 @@ function scrollToTop(scrollDuration) {
             }
             else clearInterval(scrollInterval);
         },15);
+}
+
+function get_items()
+{
+    let item = "waleed3072@gmail.com";
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('Get', 'php/cart.php?email='+item);
+
+    details_req.send();
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            $('#cart').append(details_req.responseText);
+        }
+
+    };
 }

@@ -65,30 +65,33 @@
 <div class="w-100 my-3 container">
     <div class="jumbotron" id="tron" style="float: left;width: 70%;">
     </div>
-    <div class="container" id= "first" >
-        <h2 id="head" >Login</h2><br>
-        <div class="form-group" >
-            <div class="col-sm-10" >
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
+    <form id="signin" action="php/login.php" method="POST" enctype="multipart/form-data">
+        <div class="container" id= "first" >
+            <h2 id="head" >Login</h2><br>
+            <div class="form-group" >
+                <div class="col-sm-10" >
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                </div>
+            </div>
+            <div class="form-group" >
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+                </div>
+            </div>
+            <div class="form-group" >
+                <div class="checkbox" style="float: right; width: 55%;margin-right: 25px;">
+                    <label style="color: antiquewhite"><input type="checkbox"> Remember me</label>
+                </div>
+                <button class="btn btn-light" form="signin" type="submit">Submit</button>
+            </div>
+            <div style="text-align: center;">
+                <a href="signup.html" style="color: antiquewhite;text-align: center;">Not a Member? Create Account</a>
             </div>
         </div>
-        <div class="form-group" >
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-            </div>
-        </div>
-        <div class="form-group" >
-            <div class="checkbox" style="float: right; width: 55%;margin-right: 25px;">
-                <label style="color: antiquewhite"><input type="checkbox"> Remember me</label>
-            </div>
-            <button class="btn">Submit</button>
-        </div>
-        <div style="text-align: center;">
-            <a href="signup.html" style="color: antiquewhite;text-align: center;">Not a Member? Create Account</a>
-        </div>
-    </div>
+    </form>
 </div>
 <!--/Sign In-->
+
 <!--Top Footer Area-->
 <div class="footer-top-area" style="clear: both">
     <div class="container">
@@ -142,6 +145,7 @@
         </div>
     </div>
 </div>
+
 <!--Top Footer Area End-->
 <div class="footer-bottom-area">
     <div class="container">
