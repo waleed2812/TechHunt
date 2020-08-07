@@ -111,45 +111,22 @@ $(document).ready(function () {
 
         if ($( this ).html() === "See Details")
         {
-            $('body').append('<!--Item Description popup-->\n' +
-                '\n' +
-                '<div id="description" class="container bg-light">\n' +
-                '    <div class="row">\n' +
-                '        <button onclick="close_description()" class="btn btn-danger ml-auto"><i class="fa fa-close"></i></button>\n' +
-                '    </div>\n' +
-                '    <div class="row p-5">\n' +
-                '        <div class="col-sm-4">\n' +
-                '            <figure>\n' +
-                '                <img src="img/motherboard.jpg" height=auto width="100%">\n' +
-                '            </figure>\n' +
-                '        </div>\n' +
-                '        <div class="col-sm-5" >\n' +
-                '            <a href="">MSI H110M PRO-VH PLUS INTEL H110 MOTHERBOARD</a>\n' +
-                '            <div>\n' +
-                '                <p><span style="color: gray;">Category: </span>Motherboards > LGA Socket</p>\n' +
-                '                <p><span style="color: gray;">Code: </span>H110M PRO-VH PLUS</p>\n' +
-                '                <p>\n' +
-                '                    The PRO Series motherboards fit in any PC.\n' +
-                '                    Quality you can trust with top performance and clever business solutions are key aspects of these motherboards.\n' +
-                '                    Make your life easier and boost your business with the super stable, reliable and long-lasting PRO Series motherboards.\n' +
-                '                </p>\n' +
-                '                <ul style="margin-left: 10px;">\n' +
-                '                    <li>Supports 6th Gen Intel® Core™ / Pentium® / Celeron® processors</li>\n' +
-                '                    <li>Supports DDR4-2133 Memory</li>\n' +
-                '                    <li>DDR4 Boost: Give your DDR4 memory a performance boost</li>\n' +
-                '                    <li>USB 3.1 Gen1 + SATA 6Gb/s</li>\n' +
-                '                </ul>\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="col-sm-3">\n' +
-                '            <p><span style="color: darkgray;">Availability: </span> In Stock</p>\n' +
-                '            <button class="btn btn-warning">Add to Cart <i class="fa fa-shopping-cart"></i></button>\n' +
-                '            <br><br>\n' +
-                '            <button class="btn btn-warning">Add to Wishlist</button>\n' +
-                '        </div>\n' +
-                '    </div>\n' +
-                '</div>\n' +
-                '<!--./Item Description popup-->');
+            let item = [this.id];
+
+            let details_req = new XMLHttpRequest();
+
+            details_req.open('Get', 'php/item_info.php?id='+item[0]);
+
+            details_req.send();
+
+            details_req.onreadystatechange = function() {
+
+                if (details_req.readyState === 4 && details_req.status === 200)
+                {
+                    $('body').append(details_req.responseText);
+                }
+
+            };
         }
 
         else if ($( this ).html() === "Remove From Cart")
@@ -184,8 +161,15 @@ $(document).ready(function () {
             }
         }
 
+        else if ($( this ).html() === "Add to Cart")
+        {
+
+        }
+
 
     })
+
+
 });
 
 // Calculate Cart Price
@@ -207,4 +191,14 @@ function calprice() {
 function close_description()
 {
     $( '#description' ).remove();
+}
+
+function scrollToTop(scrollDuration) {
+    var scrollStep = -window.scrollY / (scrollDuration / 15),
+        scrollInterval = setInterval(function(){
+            if ( window.scrollY !== 0 ) {
+                window.scrollBy( 0, scrollStep );
+            }
+            else clearInterval(scrollInterval);
+        },15);
 }
