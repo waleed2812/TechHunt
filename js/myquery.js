@@ -1,7 +1,7 @@
 // Jquery Code on startup and other functions
 $(document).ready(function () {
 
-    console.log(is_logged_in());
+    let current_page = (location.pathname.split('/').slice(-1)[0]);
 
     if(is_logged_in())
     {
@@ -11,15 +11,11 @@ $(document).ready(function () {
 
         login(Cookies.get('email'),Cookies.get('password'),Cookies.get('remember_me'));
 
-        let current_page = (location.pathname.split('/').slice(-1)[0]);
-
         if (current_page === "signin.html" || current_page === "signup.html")
             window.location.assign("index.html");
     }
     else
     {
-
-        let current_page = (location.pathname.split('/').slice(-1)[0]);
 
         if (current_page === "cart.html" || current_page === "account.html" || current_page === "wishlist.html")
             window.location.assign("index.html");
@@ -27,6 +23,27 @@ $(document).ready(function () {
         let navbar = $('#navbarCollapse ul:nth-child(4)');
 
         navbar.css('display','none');
+    }
+
+    if(current_page === "account.html")
+    {
+        let details_req = new XMLHttpRequest();
+
+        details_req.open('POST', 'php/give_account_info.php');
+
+        details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        details_req.send('email='+Cookies.get('email'));
+
+        details_req.onreadystatechange = function() {
+
+            if (details_req.readyState === 4 && details_req.status === 200)
+            {
+                let response = details_req.responseText;
+                $('body').append(response);
+            }
+
+        };
     }
 
     // Account Settings Form
@@ -360,7 +377,17 @@ function show_popup(message)
 {
     $('body').append('<div id="temp_popup" class="btn btn-warning position-fixed" ' +
         'style="bottom: 1%;left: 1%;">'+message+'</div>');
-    $("#temp_popup").fadeOut(3000);
+
+    let popup = $("#temp_popup");
+    popup.hover( function () {
+       popup.stop().fadeIn();
+    });
+
+    popup.mouseleave( function () {
+        popup.fadeOut(3000);
+    });
+
+    popup.fadeOut(3000);
 }
 
 // Calculate Cart Price

@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3308
--- Generation Time: Aug 07, 2020 at 03:36 PM
--- Server version: 5.7.31
--- PHP Version: 7.3.21
+-- Host: 127.0.0.1
+-- Generation Time: Aug 08, 2020 at 04:50 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,46 +27,10 @@ SET time_zone = "+00:00";
 -- Table structure for table `cart`
 --
 
-DROP TABLE IF EXISTS `cart`;
-CREATE TABLE IF NOT EXISTS `cart` (
-  `email` varchar(128) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
-  `item_id` int(16) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`email`, `item_id`) VALUES
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 7),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 10),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3);
+CREATE TABLE `cart` (
+  `email` varchar(128) NOT NULL,
+  `ID` int(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -74,18 +38,16 @@ INSERT INTO `cart` (`email`, `item_id`) VALUES
 -- Table structure for table `item_info`
 --
 
-DROP TABLE IF EXISTS `item_info`;
-CREATE TABLE IF NOT EXISTS `item_info` (
-  `ID` int(16) NOT NULL AUTO_INCREMENT,
-  `title` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `description` varchar(512) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `category` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
+CREATE TABLE `item_info` (
+  `ID` int(16) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `category` varchar(30) NOT NULL,
   `price` int(9) NOT NULL,
   `available` int(9) NOT NULL,
-  `image` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `company` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+  `image` varchar(30) NOT NULL,
+  `company` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `item_info`
@@ -120,27 +82,26 @@ INSERT INTO `item_info` (`ID`, `title`, `description`, `category`, `price`, `ava
 -- Table structure for table `user_info`
 --
 
-DROP TABLE IF EXISTS `user_info`;
-CREATE TABLE IF NOT EXISTS `user_info` (
-  `email` varchar(128) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `first_name` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `last_name` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `phone` varchar(16) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `gender` varchar(2) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `password` varchar(16) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `address` varchar(512) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `city` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `zip` varchar(8) COLLATE utf8_general_mysql500_ci NOT NULL,
-  `country` varchar(30) COLLATE utf8_general_mysql500_ci NOT NULL,
-  PRIMARY KEY (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+CREATE TABLE `user_info` (
+  `email` varchar(128) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `phone` varchar(16) NOT NULL,
+  `gender` varchar(2) NOT NULL,
+  `password` varchar(16) NOT NULL,
+  `address` varchar(512) NOT NULL,
+  `city` varchar(30) NOT NULL,
+  `zip` varchar(8) NOT NULL,
+  `country` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_info`
 --
 
 INSERT INTO `user_info` (`email`, `first_name`, `last_name`, `phone`, `gender`, `password`, `address`, `city`, `zip`, `country`) VALUES
-('waleed3072@gmail.com', 'Waleed', 'Butt', '923485157334', 'M', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Pakistan');
+('waleed3072@gmail.com', 'Waleed', 'Butt', '923485157334', 'F', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Afghanistan'),
+('waleed30@gmail.com', 'Waleed', 'Butt', '923485157334', 'M', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Pakistan');
 
 -- --------------------------------------------------------
 
@@ -148,20 +109,75 @@ INSERT INTO `user_info` (`email`, `first_name`, `last_name`, `phone`, `gender`, 
 -- Table structure for table `wishlist`
 --
 
-DROP TABLE IF EXISTS `wishlist`;
-CREATE TABLE IF NOT EXISTS `wishlist` (
-  `email` varchar(128) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
-  `item_id` int(16) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+CREATE TABLE `wishlist` (
+  `email` varchar(128) DEFAULT NULL,
+  `ID` int(16) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `wishlist`
 --
 
-INSERT INTO `wishlist` (`email`, `item_id`) VALUES
-('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 4),
-('waleed3072@gmail.com', 5);
+INSERT INTO `wishlist` (`email`, `ID`) VALUES
+('waleed30@gmail.com', 3);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD KEY `fk_cart_email` (`email`),
+  ADD KEY `fk_cart_id` (`ID`);
+
+--
+-- Indexes for table `item_info`
+--
+ALTER TABLE `item_info`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `user_info`
+--
+ALTER TABLE `user_info`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD KEY `fk_wl_email` (`email`),
+  ADD KEY `fk_wl_id` (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `item_info`
+--
+ALTER TABLE `item_info`
+  MODIFY `ID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `fk_cart_email` FOREIGN KEY (`email`) REFERENCES `user_info` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cart_id` FOREIGN KEY (`ID`) REFERENCES `item_info` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD CONSTRAINT `fk_wl_email` FOREIGN KEY (`email`) REFERENCES `user_info` (`email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_wl_id` FOREIGN KEY (`ID`) REFERENCES `item_info` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
