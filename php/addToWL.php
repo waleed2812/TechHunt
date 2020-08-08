@@ -8,7 +8,7 @@ if(mysqli_connect_error())
 {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-$sql = "SELECT item_id FROM wishlist WHERE email='$email'";
+$sql = "SELECT ID FROM wishlist WHERE email='$email'";
 
 
 $result = mysqli_query($conn, $sql);
@@ -23,11 +23,14 @@ for ($i = 0 ; $i < mysqli_num_rows($result) ; $i++)
     }
 }
 
-$sql = "INSERT INTO wishlist (email, item_id) VALUES ('$email','$item_id')";
+$sql = "INSERT INTO wishlist (email, ID) VALUES ('$email','$item_id')";
 
-mysqli_query($conn, $sql);
+if(mysqli_query($conn, $sql))
+    echo "Added to Wishlist";
+else
+    echo "Failed to Add";
 
 mysqli_close($conn);
 
-echo "Added to Wishlist";
+
 ?>

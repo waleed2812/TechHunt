@@ -25,10 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(substr($phone,0,1) == '0')
         $phone = substr($phone,1);
 
-    $phone = $_POST['phone_code'].$phone;
+    $phone_code = test_input($_POST['phone_code']);
 
     $phone += 0;
     $zip += 0;
+    $phone_code +=0;
 
 
     $query = "SELECT email FROM user_info WHERE email='$email'";
@@ -44,9 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $query = "INSERT INTO user_info
-    (email,first_name, last_name, phone, gender, password, address, city, zip, country)
+    (email,first_name, last_name, phone_code,phone, gender, password, address, city, zip, country)
     VALUES
-    ('$email','$first_name','$last_name',$phone,'$gender', '$password','$address','$city',$zip,'$country')";
+    ('$email','$first_name','$last_name',$phone_code,$phone,'$gender', '$password','$address','$city',$zip,'$country')";
 
 
 

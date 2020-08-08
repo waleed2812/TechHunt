@@ -12,9 +12,9 @@ $sql = "SELECT * FROM user_info WHERE email='$email'";
 
 $result =mysqli_fetch_array(mysqli_query($conn, $sql));
 $gender = "";
-if($result[4] == "M")
+if($result[5] == "M")
     $gender = 'male';
-elseif ($result[4] == "F")
+elseif ($result[5] == "F")
     $gender = 'female';
 else
     $gender = 'other';
@@ -28,18 +28,20 @@ echo '
     
     $("#lname").val("'.$result[2].'");
     
-    $("#phone").val("'.$result[3].'");
+    $("#phone_code").val("'.$result[3].'");
+    
+    $("#phone").val("'.$result[4].'");
     
     $("#'.$gender.'").attr("checked","checked");
     
-    $("#street_address").val("'.$result[6].'");
+    $("#street_address").val("'.$result[7].'");
         
-    $("#city").val("'.$result[7].'");
+    $("#city").val("'.$result[8].'");
     
-    $("#zip").val("'.$result[8].'");
+    $("#zip").val("'.$result[9].'");
     
-    $("#country").val("'.$result[9].'");
-    
+    $("#country").val("'.$result[10].'");
+        
 
 </script>';
 

@@ -17,11 +17,14 @@ if($result[0] <= 0) {
     die();
 }
 
-$sql = "INSERT INTO cart (email, item_id) VALUES ('$email','$item_id')";
+$sql = "INSERT INTO cart (email, ID) VALUES ('$email','$item_id')";
 
-mysqli_query($conn, $sql);
+if(mysqli_query($conn, $sql))
+    echo "Added to cart";
+else
+    echo "Failed to add to cart";
 
 mysqli_close($conn);
 
-echo "Added to cart";
+
 ?>

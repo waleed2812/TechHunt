@@ -46,11 +46,6 @@ $(document).ready(function () {
         };
     }
 
-    // Account Settings Form
-    $("#formaccount").submit(function () {
-        return verify_name();
-    })
-
     // Checkout Form
     $("#cartform").submit(function () {
         return verify_name();
@@ -97,24 +92,9 @@ $(document).ready(function () {
 
     // Remove Errors Attributes
     $("input").keyup(function () {
-        let fname = $("#fname");
-        let lname = $("#lname");
-        let npassword = $("#npassword");
-        let password = $("#password");
-        let cpassword = $("#cpassword");
-        let email = $("#email");
 
-        fname.removeClass("border-danger");
-        fname.siblings("label").children('span').remove();
-        lname.removeClass("border-danger");
-        lname.siblings("label").children('span').remove();
-        npassword.removeClass("border-danger");
-        npassword.siblings("label").children('span').remove();
-		password.removeClass("border-danger");
-        password.siblings("label").children('span').remove();
-        cpassword.removeClass("border-danger");
-        email.removeClass("border-danger");
-        email.siblings("label").children('span').remove();
+        $(this).removeClass("border-danger");
+        $(this).siblings("label").children('span').remove();
 
         $('#login_error').html("");
     })
@@ -375,7 +355,7 @@ function add_to_wl(item_id)
 // A Small popup to diplay certain messages to user
 function show_popup(message)
 {
-    $('body').append('<div id="temp_popup" class="btn btn-warning position-fixed" ' +
+    $('body').append('<div id="temp_popup" class="btn btn-dark position-fixed" ' +
         'style="bottom: 1%;left: 1%;">'+message+'</div>');
 
     let popup = $("#temp_popup");
@@ -447,3 +427,55 @@ function get_items()
 
     };
 }
+
+//Update account Info
+function update_account_info()
+{
+    if(!verify_name()) return ;
+
+    let email = $('#email').val();
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('POST', 'php/update_account_info.php');
+
+    details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    details_req.send(
+        'oemail='+Cookies.get('email')+
+        '&email='+ email +
+        '&fname=' + $('#fname').val() +
+        '&lname=' + $('#lname').val() +
+        '&phone_code=' + $('#phone_code').val() +
+        '&phone=' + $('#phone').val() +
+        '&gender=' + $("input[name='gender']:checked").val() +
+        '&street_address=' + $('#street_address').val() +
+        '&city=' + $('#city').val() +
+        '&zip=' + $('#zip').val() +
+        '&country=' + $('#country').val()
+    );
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            let response = details_req.responseText;
+
+            if(response === 'Updated')
+            {
+                if(Cookies.get('remember_me') === "true")
+                {
+                    Cookies.set('email',email,{expires: 365});
+                }
+                else
+                {
+                    Cookies.set('email',email, {expires: 1});
+                }
+            }
+
+            show_popup(response);
+        }
+    };
+}
+
+
