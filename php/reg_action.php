@@ -31,6 +31,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zip += 0;
 
 
+    $query = "SELECT email FROM user_info WHERE email='$email'";
+
+    $result = mysqli_num_rows(mysqli_query($connection,$query));
+
+    if($result != 0)
+    {
+        die ("Email Already Exists");
+        mysqli_close($connection);
+    }
+
 
 
     $query = "INSERT INTO user_info
@@ -38,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     VALUES
     ('$email','$first_name','$last_name',$phone,'$gender', '$password','$address','$city',$zip,'$country')";
 
-    echo gettype($phone);
+
 
     $temp = mysqli_query($connection, $query);
     if ($temp)

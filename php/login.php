@@ -1,36 +1,43 @@
 <?php
-$connection=mysqli_connect("localhost","root","","tech_hunt");
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-session_start();
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+$email = $_POST['email'];
+$password = $_POST['password'];
 
-    $email = test_input($_POST['email']);
+$conn = mysqli_connect("localhost", "root", "", "tech_hunt");
 
-    $password = $_POST['password'];
-
-    $query = "SELECT * from user_info where 'email' = '$email' and 'password' = '$password';";
-
-    $result = mysqli_query($connection,$query);
-
-    $count = mysqli_num_rows($result);
-    if ($count == 0){
-        die("Invalid email or password");
-    }
-    else{
-        $_SESSION['login_user'] = $email;
-        header('Location: index.html');
-    }
-
-    mysqli_close($connection);
+if($_COOKIE['email'] == $email)
+{
+    echo "Already Logged in";
+    die();
 }
 
 
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+if(mysqli_connect_error())
+{
+    die("ERROR: Could not connect. " . mysqli_connect_error());
 }
+
+$sql = " SELECT password FROM user_info WHERE email='$email' ";
+
+
+$result = mysqli_query($conn, $sql);
+
+$row = mysqli_fetch_all($result);
+
+if(mysqli_num_rows($result) <= 0)
+{
+    echo "Email Does Not Exists";
+    mysqli_close($conn);
+    die();
+}
+if($row[0][0] != $password)
+{
+    echo "Password Does Not Match";
+    mysqli_close($conn);
+    die();
+}
+echo "Successfully Logged in";
+setcookie('email',$email);
+
+mysqli_close($conn);
+
 ?>

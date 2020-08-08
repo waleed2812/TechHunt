@@ -1,132 +1,66 @@
+// Jquery Code on startup and other functions
 $(document).ready(function () {
 
+    console.log(is_logged_in());
+
+    if(is_logged_in())
+    {
+        let navbar = $('#navbarCollapse ul:nth-child(3)');
+
+        navbar.css('display','none');
+
+        login(Cookies.get('email'),Cookies.get('password'),Cookies.get('remember_me'));
+
+        let current_page = (location.pathname.split('/').slice(-1)[0]);
+
+        if (current_page === "signin.html" || current_page === "signup.html")
+            window.location.assign("index.html");
+    }
+    else
+    {
+
+        let current_page = (location.pathname.split('/').slice(-1)[0]);
+
+        if (current_page === "cart.html" || current_page === "account.html" || current_page === "wishlist.html")
+            window.location.assign("index.html");
+
+        let navbar = $('#navbarCollapse ul:nth-child(4)');
+
+        navbar.css('display','none');
+    }
+
     // Account Settings Form
-    $("#formaccount").submit(function (e) {
-        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
-
-        if (name_regexp.test($("#fname").val()))
-        {
-
-            $("#fname").addClass("border-danger");
-            $("#fname").siblings("label").append(
-                '<span style="color:red"> (Only Alphabets)</span>');
-            return false;
-        }
-
-        if (name_regexp.test($("#lname").val()))
-        {
-            $("#lname").addClass("border-danger");
-            $("#lname").siblings("label").append(
-                '<span style="color:red"> (Only Alphabets)</span>');
-            return false;
-        }
-
+    $("#formaccount").submit(function () {
+        return verify_name();
     })
 
     // Checkout Form
-    $("#cartform").submit(function (e) {
-        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
-
-        if (name_regexp.test($("#fname").val()))
-        {
-
-            $("#fname").addClass("border-danger");
-            $("#fname").siblings("label").append(
-                '<span style="color:red;font-size: 11px"> (Only Alphabets)</span>');
-            return false;
-        }
-
-        if (name_regexp.test($("#lname").val()))
-        {
-            $("#lname").addClass("border-danger");
-            $("#lname").siblings("label").append(
-                '<span style="color:red;font-size: 11px"> (Only Alphabets)</span>');
-            return false;
-        }
-
+    $("#cartform").submit(function () {
+        return verify_name();
     })
 
     // Sign Up Form
-    $("#signupForm").submit(function (e) {
+    $("#signupForm").submit(function () {
 
-        e.preventDefault();
-        var name_regexp = new RegExp(/[^A-Za-z\s]/g);
-        if (name_regexp.test($("#fname").val()))
-        {
-            $("#fname").addClass("border-danger");
-            $("#fname").siblings("label").append(
-                '<span style="color:red"> (Only Alphabets)</span>');
-            return false;
-        }
-
-        if (name_regexp.test($("#lname").val()))
-        {
-            $("#lname").addClass("border-danger");
-            $("#lname").siblings("label").append(
-                '<span style="color:red"> (Only Alphabets)</span>');
-            return false;
-        }
-
-        if ($("#password").val() !== $("#cpassword").val())
-        {
-            $("#cpassword").addClass("border-danger");
-            $("#password").addClass("border-danger");
-            $("#password").siblings("label").append(
-                '<span style="color:red"> (Password Does Not Match)</span>');
-            return false;
-        }
-
-        var password_validation = new RegExp(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
-
-        if(!password_validation.test($("#password").val()))
-        {
-            $("#cpassword").addClass("border-danger");
-            $("#password").addClass("border-danger");
-            $("#password").siblings("label").append(
-                '<span style="color:red;font-size: 14px"> ' +
-                '(Must uppercase, lowercase, and digit.)</span>');
-            return false;
-        }
-
-
-        let email = $("#email").val();
-
-        let details_req = new XMLHttpRequest();
-
-        details_req.open('GET', 'php/isExisting.php?email='+email);
-
-        details_req.send();
-
-        let response = "";
-
-        details_req.onreadystatechange = function() {
-
-            if (details_req.readyState === 4 && details_req.status === 200)
-            {
-                response  = details_req.responseText;
-                console.log("Response: "+response);
-                if(response === "Exists")
-                {
-                    $("#email").addClass("border-danger");
-                    $("#email").siblings("label").append(
-                        '<span style="color:red;font-size: 14px"> ' +
-                        '(Email Already Exists.)</span>');
-                    return false;
-                }
-            }
-
-        };
+        return verify_name() && validate_password();
 
     });
 
+    // Logging In
+    $('#login').click( function () {
+        login($('#email').val(), $('#password').val(), $('#remember_me').is(":checked"));
+    });
+
     // Country Code Selector
-    var selected_phone;
-    $("#phone_code").ready(function () {
+    let selected_phone;
+    let phone_code = $("#phone_code");
+
+    phone_code.ready(function () {
         selected_phone = $("#phone_code option:selected");
         selected_phone.attr("label",$("#phone_code").val());
     })
 
-    $("#phone_code").change(function(){
+    phone_code.change(function(){
         selected_phone.removeAttr("label");
         selected_phone = $("#phone_code option:selected");
         selected_phone.attr("label",$("#phone_code").val());
@@ -135,55 +69,42 @@ $(document).ready(function () {
     // Phone number Input
     $("#phone").on('input',function () {
         let pattern = new RegExp(/[^0-9]/g);
-        let phn = $("#phone").val().replace(pattern,"");
-        $("#phone").val(phn);
+        let phone = $("#phone");
+        phone.val(phone.val().replace(pattern,""));
     })
 
     // Password Update Form
-    $("#password_update_form").submit(function (e) {
-
-        if ($("#npassword").val() !== $("#cpassword").val())
-        {
-            $("#cpassword").addClass("border-danger");
-            $("#npassword").addClass("border-danger");
-            $("#npassword").siblings("label").append(
-                '<span style="color:red"> (Password Does Not Match)</span>');
-            return false;
-        }
-        // Password matching expression. Password must be at least 8 characters, no more than 127 characters, and must
-        // include at least one upper case letter, one lower case letter, and one numeric digit.
-        var password_validation = new RegExp(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
-
-        if(!password_validation.test($("#npassword").val()))
-        {
-            $("#cpassword").addClass("border-danger");
-            $("#npassword").addClass("border-danger");
-            $("#npassword").siblings("label").append(
-                '<span style="color:red;font-size: 14px"> ' +
-                '(Must uppercase, lowercase, and digit.)</span>');
-            return false;
-        }
-
+    $("#password_update_form").submit(function () {
+        return validate_password();
     })
 
     // Remove Errors Attributes
     $("input").keyup(function () {
-        $("#fname").removeClass("border-danger");
-        $("#fname").siblings("label").children('span').remove();
-        $("#lname").removeClass("border-danger");
-        $("#lname").siblings("label").children('span').remove();
-        $("#npassword").removeClass("border-danger");
-        $("#npassword").siblings("label").children('span').remove();
-		$("#password").removeClass("border-danger");
-        $("#password").siblings("label").children('span').remove();
-        $("#cpassword").removeClass("border-danger");
-        $("#email").removeClass("border-danger");
-        $("#email").siblings("label").children('span').remove();
+        let fname = $("#fname");
+        let lname = $("#lname");
+        let npassword = $("#npassword");
+        let password = $("#password");
+        let cpassword = $("#cpassword");
+        let email = $("#email");
 
+        fname.removeClass("border-danger");
+        fname.siblings("label").children('span').remove();
+        lname.removeClass("border-danger");
+        lname.siblings("label").children('span').remove();
+        npassword.removeClass("border-danger");
+        npassword.siblings("label").children('span').remove();
+		password.removeClass("border-danger");
+        password.siblings("label").children('span').remove();
+        cpassword.removeClass("border-danger");
+        email.removeClass("border-danger");
+        email.siblings("label").children('span').remove();
+
+        $('#login_error').html("");
     })
 
     // Cart Remove
     $("button").click(function () {
+        let cartDiv, divToRm;
 
         if ($( this ).html() === "See Details")
         {
@@ -207,10 +128,10 @@ $(document).ready(function () {
 
         else if ($( this ).html() === "Remove From Cart")
         {
-            var cartDiv = $("#cart div");
-            var divToRm = $( this ).parent().parent()[0];
+            cartDiv = $("#cart div");
+            divToRm = $( this ).parent().parent()[0];
 
-            for (var i = 1 ; cartDiv[i] ; i++)
+            for (let i = 1 ; cartDiv[i] ; i++)
             {
                 if (cartDiv[i] === divToRm)
                 {
@@ -227,7 +148,7 @@ $(document).ready(function () {
             cartDiv = $("#wishlist div");
             divToRm = $( this ).parent().parent()[0];
 
-            for (var i = 1 ; cartDiv[i] ; i++)
+            for (let i = 1 ; cartDiv[i] ; i++)
             {
                 if (cartDiv[i] === divToRm)
                 {
@@ -240,14 +161,152 @@ $(document).ready(function () {
 
     })
 
-
 });
+
+// Signin
+function login(email, password, remember_me)
+{
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('POST', 'php/login.php');
+
+    details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    details_req.send('email='+email+'&password='+password);
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            let response = details_req.responseText;
+            console.log(response);
+
+            if(response === 'Successfully Logged in')
+            {
+                if(remember_me)
+                {
+                    Cookies.set('email',email,{expires: 365});
+                    Cookies.set('password',password,{expires: 365});
+                    Cookies.set('remember_me',remember_me,{expires: 365});
+                }
+                else
+                {
+                    Cookies.set('email',email, {expires: 1});
+                    Cookies.set('password',password, {expires: 1});
+                    Cookies.set('remember_me',remember_me, {expires: 1});
+                }
+                window.location.assign("index.html");
+            }
+            else
+            {
+                $('#login_error').append(response);
+            }
+        }
+
+    };
+}
+
+//Logout
+function logout()
+{
+    Cookies.set('email',"");
+    Cookies.set('password',"");
+    Cookies.set('remember_me',"");
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('GET', 'php/logout.php');
+
+    let navbar = $('#navbarCollapse ul:nth-child(4)');
+
+    navbar.css('display','none');
+
+    navbar = $('#navbarCollapse ul:nth-child(3)');
+
+    navbar.css('display','inline');
+
+
+
+}
+
+// Is logged in
+function is_logged_in()
+{
+    return (Cookies.get('email') !== "") &&
+        (Cookies.get('password') !== "") &&
+        (Cookies.get('remember_me') !== "") &&
+        (typeof (Cookies.get('email')) !== "undefined") &&
+        (typeof (Cookies.get('password')) !== "undefined") &&
+        (typeof (Cookies.get('remember_me')) !== "undefined");
+
+}
+
+// Validate if password matches password criteria
+function validate_password()
+{
+    let password = $("#password");
+    let cpassword = $("#cpassword")
+
+    if (password.val() !== cpassword.val())
+    {
+        cpassword.addClass("border-danger");
+        password.addClass("border-danger");
+        password.siblings("label").append(
+            '<span style="color:red"> (Password Does Not Match)</span>');
+        return false;
+    }
+
+    let password_validation = new RegExp(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
+
+    if(!password_validation.test(password.val()))
+    {
+        cpassword.addClass("border-danger");
+        password.addClass("border-danger");
+        password.siblings("label").append(
+            '<span style="color:red;font-size: 14px"> ' +
+            '(Must uppercase, lowercase, and digit.)</span>');
+        return false;
+    }
+    return true;
+}
+
+// Verify if the name of user is text only
+function verify_name()
+{
+    let name_regexp = new RegExp(/[^A-Za-z\s]/g);
+    let fname = $("#fname");
+    let lname = $("#lname");
+
+    if (name_regexp.test(fname.val()))
+    {
+
+        fname.addClass("border-danger");
+        fname.siblings("label").append(
+            '<span style="color:red"> (Only Alphabets)</span>');
+        return false;
+    }
+
+    if (name_regexp.test(lname.val()))
+    {
+        lname.addClass("border-danger");
+        lname.siblings("label").append(
+            '<span style="color:red"> (Only Alphabets)</span>');
+        return false;
+    }
+
+    return true;
+}
 
 // Add to cart
 function add_to_cart(item_id)
 {
+    if(!is_logged_in())
+    {
+        show_popup('Not Logged in');
+        return ;
+    }
 
-    let email = "waleed3072@gmail.com";
+    let email = Cookies.get('email');
 
     let details_req = new XMLHttpRequest();
 
@@ -270,7 +329,14 @@ function add_to_cart(item_id)
 function add_to_wl(item_id)
 {
 
-    let email = "waleed3072@gmail.com";
+
+    if(!is_logged_in())
+    {
+        show_popup('Not Logged in');
+        return ;
+    }
+
+    let email = Cookies.get('email');
 
     let details_req = new XMLHttpRequest();
 
@@ -289,7 +355,7 @@ function add_to_wl(item_id)
 
 }
 
-var inter;
+// A Small popup to diplay certain messages to user
 function show_popup(message)
 {
     $('body').append('<div id="temp_popup" class="btn btn-warning position-fixed" ' +
@@ -298,29 +364,34 @@ function show_popup(message)
 }
 
 // Calculate Cart Price
-function cartload() {
+function cartload()
+{
     get_items();
     calprice();
 }
 
 // Calculate price of items in cart
-function calprice() {
+function calprice()
+{
 
-    var h2Tags =$("#cart h2");
-    var sum = 0;
-    for (var i = 0 ; h2Tags[i] ; i++)
+    let h2Tags =$("#cart h2");
+    let sum = 0;
+    for (let i = 0 ; h2Tags[i] ; i++)
         sum += parseFloat(h2Tags[i].innerHTML.replace(/[^0-9]/g,""));
 
     $("#total_price").html("Total: "+sum);
 }
 
+// Close the description div of items
 function close_description()
 {
     $( '#description' ).remove();
 }
 
-function scrollToTop(scrollDuration) {
-    var scrollStep = -window.scrollY / (scrollDuration / 15),
+// Scroll the page to top
+function scrollToTop(scrollDuration)
+{
+    let scrollStep = -window.scrollY / (scrollDuration / 15),
         scrollInterval = setInterval(function(){
             if ( window.scrollY !== 0 ) {
                 window.scrollBy( 0, scrollStep );
@@ -329,6 +400,7 @@ function scrollToTop(scrollDuration) {
         },15);
 }
 
+// Get items in the cart
 function get_items()
 {
     let item = "waleed3072@gmail.com";
