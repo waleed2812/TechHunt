@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2020 at 04:50 PM
+-- Generation Time: Aug 09, 2020 at 08:24 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -31,6 +31,14 @@ CREATE TABLE `cart` (
   `email` varchar(128) NOT NULL,
   `ID` int(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`email`, `ID`) VALUES
+('waleed3072@gmail.com', 3),
+('waleed3072@gmail.com', 3);
 
 -- --------------------------------------------------------
 
@@ -86,6 +94,7 @@ CREATE TABLE `user_info` (
   `email` varchar(128) NOT NULL,
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(30) NOT NULL,
+  `phone_code` int(5) NOT NULL,
   `phone` varchar(16) NOT NULL,
   `gender` varchar(2) NOT NULL,
   `password` varchar(16) NOT NULL,
@@ -99,9 +108,9 @@ CREATE TABLE `user_info` (
 -- Dumping data for table `user_info`
 --
 
-INSERT INTO `user_info` (`email`, `first_name`, `last_name`, `phone`, `gender`, `password`, `address`, `city`, `zip`, `country`) VALUES
-('waleed3072@gmail.com', 'Waleed', 'Butt', '923485157334', 'F', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Afghanistan'),
-('waleed30@gmail.com', 'Waleed', 'Butt', '923485157334', 'M', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Pakistan');
+INSERT INTO `user_info` (`email`, `first_name`, `last_name`, `phone_code`, `phone`, `gender`, `password`, `address`, `city`, `zip`, `country`) VALUES
+('waleed3072@gmail.com', 'Waleed', 'ButtMan', 92, '3485157334', 'M', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Afghanistan'),
+('waleed30@gmail.com', 'Waleed', 'Butt', 92, '3485157334', 'M', 'Dw1r6eCcFDAH7G', 'sdklf;ksjdhfkdshfkjshdkjfhskdjhf', 'Islamabad', '44000', 'Pakistan');
 
 -- --------------------------------------------------------
 
@@ -119,7 +128,8 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`email`, `ID`) VALUES
-('waleed30@gmail.com', 3);
+('waleed30@gmail.com', 3),
+('waleed3072@gmail.com', 3);
 
 --
 -- Indexes for dumped tables
