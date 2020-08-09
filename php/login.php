@@ -4,12 +4,14 @@ $password = $_POST['password'];
 
 $conn = mysqli_connect("localhost", "root", "", "tech_hunt");
 
-if($_COOKIE['email'] == $email)
+if(isset($_COOKIE['email']))
 {
-    echo "Already Logged in";
-    die();
+    if($_COOKIE['email'] == $email)
+    {
+        echo "Already Logged in";
+        die();
+    }
 }
-
 
 if(mysqli_connect_error())
 {
