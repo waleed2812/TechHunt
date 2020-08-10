@@ -25,28 +25,9 @@ $(document).ready(function () {
         navbar.css('display','none');
     }
 
-    if(current_page === "account.html")
-    {
-        let details_req = new XMLHttpRequest();
-
-        details_req.open('POST', 'php/give_account_info.php');
-
-        details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        details_req.send('email='+Cookies.get('email'));
-
-        details_req.onreadystatechange = function() {
-
-            if (details_req.readyState === 4 && details_req.status === 200)
-            {
-                let response = details_req.responseText;
-                $('body').append(response);
-            }
-
-        };
-    }
-    if(current_page === "cart.html") cartload();
-    if(current_page === "wishlist.html") update_wl();
+    if(current_page === "account.html") get_account_info();
+    else if(current_page === "cart.html") cartload();
+    else if(current_page === "wishlist.html") update_wl();
 
     // Sign Up Form
     $("#signupForm").submit(function () {
@@ -92,8 +73,8 @@ $(document).ready(function () {
 
         let inp = $("input");
 
-        $(this).removeClass("border-danger");
-        $(this).siblings("label").children('span').remove();
+        inp.removeClass("border-danger");
+        inp.siblings("label").children('span').remove();
 
         $('#login_error').html("");
     })
@@ -305,6 +286,7 @@ function remove_from_cart_wl(item_id, cart_wl)
         {
             show_popup(details_req.responseText);
             $("#"+item_id).remove();
+            if(cart_wl === "cart") calprice();
         }
 
     };
@@ -339,19 +321,19 @@ function update_wl()
 function cartload()
 {
     get_items("cart");
-    calprice();
+    get_account_info();
 }
 
 // Calculate price of items in cart
 function calprice()
 {
 
-    let h2Tags =$("#cart h2");
+    let h2Tags = $("#cart h2");
     let sum = 0;
-    for (let i = 0 ; h2Tags[i] ; i++)
-        sum += parseFloat(h2Tags[i].innerHTML.replace(/[^0-9]/g,""));
+    for (let i = 0; h2Tags[i]; i++)
+        sum += parseFloat(h2Tags[i].innerHTML.replace(/[^0-9]/g, ""));
 
-    $("#total_price").html("Total: "+sum);
+    $("#total_price").html("Total: " + sum);
 }
 
 // Close the description div of items
@@ -388,6 +370,29 @@ function get_items(cart_wl)
         if (details_req.readyState === 4 && details_req.status === 200)
         {
             $('#'+cart_wl).append(details_req.responseText);
+            if(cart_wl === "cart") calprice();
+        }
+
+    };
+}
+
+//Show Account Info
+function get_account_info()
+{
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('POST', 'php/give_account_info.php');
+
+    details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    details_req.send('email='+Cookies.get('email'));
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            let response = details_req.responseText;
+            $('body').append(response);
         }
 
     };
