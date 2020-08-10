@@ -478,14 +478,14 @@ function update_account_info()
     };
 }
 
-
+// Display Items in Shop
 function shop() {
     let current_page = (location.pathname.split('/').slice(-1)[0]);
     let page;
     if (current_page === "motherboard.html") {
         page = "Motherboard";
     } else if (current_page === "rams.html") {
-        page = "Rams";
+        page = "RAM";
     } else if (current_page === "powersupply.html") {
         page = "Powersupply";
     } else if (current_page === "processor.html") {
@@ -493,7 +493,7 @@ function shop() {
     } else if (current_page === "Storage.html") {
         page = "Storage";
     } else if (current_page === "graphic_card.html") {
-        page = "Gpu";
+        page = "GPU";
     } else {
         page = "Other";
     }
@@ -510,4 +510,62 @@ function shop() {
         }
 
     };
+}
+
+// Validate Old Password
+function validate_old_password()
+{
+    let cpassword = Cookies.get('password');
+    let password = $("#opassword")
+
+    if (password.val() !== cpassword)
+    {
+        password.addClass("border-danger");
+        password.siblings("label").append(
+            '<span style="color:red"> (Wrong Old Password)</span>');
+        return false;
+    }
+
+    return true;
+}
+
+// Update Account Password
+function update_password()
+{
+    if(!validate_password()) return ;
+
+    if(!validate_old_password()) return ;
+
+    let password = $('#password').val();
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('POST', 'php/update_password.php');
+
+    details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    details_req.send( 'email='+Cookies.get('email') +'&password='+ password);
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            let response = details_req.responseText;
+
+            if(response === 'Updated')
+            {
+                if(Cookies.get('remember_me') === "true")
+                {
+                    Cookies.set('password',password,{expires: 365});
+                }
+                else
+                {
+                    Cookies.set('password',password, {expires: 1});
+                }
+            }
+
+            show_popup(response);
+        }
+    };
+
 }

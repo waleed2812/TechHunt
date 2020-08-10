@@ -18,7 +18,7 @@ if (mysqli_num_rows($result)>0){
         <div class="row">
                     <div class="col-sm-4">
                         <figure>
-                            <img src="'.$row[6].'" height=auto width="100%">
+                            <img src="'.$row[6].'" width="100%" height="200px">
                         </figure>
                     </div>
                     <div class="col-sm-5" >
