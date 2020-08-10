@@ -19,7 +19,7 @@ for ($i = 0 ; $i < mysqli_num_rows($result) ; $i++)
 {
     if($row[$i][0] == $item_id)
     {
-        echo ("Already Added in Wishlist");
+        echo ("Already Added in ".$cart_wl);
         die();
     }
 }

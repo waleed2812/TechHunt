@@ -35,9 +35,9 @@ if (mysqli_num_rows($result)>0){
                     <div class="col-sm-3">
                         <p><span style="color: lightgrey;">Availability: </span> '.$row[5].'</p>
                         <p><span style="color: lightgrey;">Price: </span> '.$row[4].'</p>
-                        <a class="btn btn-light" style="background: yellow;" onclick="add_to_cart('.$row[0].')">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-light" style="background: yellow;" onclick="add_to_cart_wl('.$row[0].',\'cart\')">Add to Cart <i class="fa fa-shopping-cart"></i></a>
                         <br><br>
-                        <a class="btn btn-outline-light" onclick="add_to_wl('.$row[0].')">Add to Wishlist <i class="fa fa-heart-o"></i></a>
+                        <a class="btn btn-outline-light" onclick="add_to_cart_wl('.$row[0].',\'wishlist\')">Add to Wishlist <i class="fa fa-heart-o"></i></a>
 
                     </div>
                 </div>

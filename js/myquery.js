@@ -452,7 +452,7 @@ function shop() {
     } else if (current_page === "rams.html") {
         page = "RAM";
     } else if (current_page === "powersupply.html") {
-        page = "Powersupply";
+        page = "PSU";
     } else if (current_page === "processor.html") {
         page = "Processor";
     } else if (current_page === "Storage.html") {

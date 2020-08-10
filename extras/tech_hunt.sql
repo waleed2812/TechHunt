@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2020 at 08:24 AM
+-- Generation Time: Aug 10, 2020 at 07:51 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -37,8 +37,12 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`email`, `ID`) VALUES
+('waleed3072@gmail.com', 6),
+('waleed3072@gmail.com', 7),
 ('waleed3072@gmail.com', 3),
-('waleed3072@gmail.com', 3);
+('waleed3072@gmail.com', 1),
+('waleed3072@gmail.com', 12),
+('waleed3072@gmail.com', 34);
 
 -- --------------------------------------------------------
 
@@ -82,7 +86,8 @@ INSERT INTO `item_info` (`ID`, `title`, `description`, `category`, `price`, `ava
 (19, 'ARGB Fans', 'Colourfull fans', 'Other', 200, 15, 'img/pp/9.png', 'Corsair'),
 (20, 'Snowblind White LEDs', 'Colourfull LEDs', 'Other', 200, 15, 'img/pp/10.png', 'ASUS'),
 (21, 'No Sound Mouse Pad', 'Smooth and soft', 'Other', 200, 15, 'img/pp/11.png', 'GIGABYTE'),
-(33, 'iBUYPOWER USB Extension', 'Strong and fast', 'Other', 200, 15, 'img/pp/12.png', 'HP');
+(33, 'iBUYPOWER USB Extension', 'Strong and fast', 'Other', 200, 15, 'img/pp/12.png', 'HP'),
+(34, '500W Kenable PSU with PFC-prot', '500W\r\nFor Tower PC CASE\r\nATX PSU\r\nPFC Protection', 'PSU', 499, 15, 'img/psu/1.jpg', 'Kenable');
 
 -- --------------------------------------------------------
 
@@ -129,7 +134,9 @@ CREATE TABLE `wishlist` (
 
 INSERT INTO `wishlist` (`email`, `ID`) VALUES
 ('waleed30@gmail.com', 3),
-('waleed3072@gmail.com', 3);
+('waleed3072@gmail.com', 1),
+('waleed3072@gmail.com', 3),
+('waleed3072@gmail.com', 12);
 
 --
 -- Indexes for dumped tables
@@ -169,7 +176,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `item_info`
 --
 ALTER TABLE `item_info`
-  MODIFY `ID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
