@@ -29,6 +29,9 @@ $(document).ready(function () {
     else if(current_page === "cart.html") cartload();
     else if(current_page === "wishlist.html") update_wl();
 
+    // Checkout
+
+
     // Sign Up Form
     $("#signupForm").submit(function () {
 
@@ -106,7 +109,7 @@ $(document).ready(function () {
 
 });
 
-// Signin
+// Sign in
 function login(email, password, remember_me)
 {
     let details_req = new XMLHttpRequest();
@@ -122,7 +125,6 @@ function login(email, password, remember_me)
         if (details_req.readyState === 4 && details_req.status === 200)
         {
             let response = details_req.responseText;
-            console.log(response);
 
             if(response === 'Successfully Logged in')
             {
@@ -294,13 +296,17 @@ function remove_from_cart_wl(item_id, cart_wl)
 
 }
 
-// A Small popup to diplay certain messages to user
+// A Small popup to display certain messages to user
 function show_popup(message)
 {
+
+    $('body #temp_popup').remove();
+
     $('body').append('<div id="temp_popup" class="btn btn-dark position-fixed" ' +
         'style="bottom: 1%;left: 1%;">'+message+'</div>');
 
     let popup = $("#temp_popup");
+
     popup.hover( function () {
        popup.stop().fadeIn();
     });
@@ -317,6 +323,7 @@ function update_wl()
 {
     get_items("wishlist");
 }
+
 // Calculate Cart Price
 function cartload()
 {
@@ -334,6 +341,10 @@ function calprice()
         sum += parseFloat(h2Tags[i].innerHTML.replace(/[^0-9]/g, ""));
 
     $("#total_price").html("Total: " + sum);
+
+    return sum;
+
+
 }
 
 // Close the description div of items
@@ -535,6 +546,63 @@ function update_password()
             }
 
             show_popup(response);
+        }
+    };
+
+}
+
+// Checkout
+function checkout()
+{
+    if(!verify_name()) return ;
+
+    let price = calprice();
+
+    if(price <= 0) {
+        show_popup("Cart is Empty");
+        return ;
+    }
+
+    let email = $('#email').val();
+
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('POST', 'php/bill.php');
+
+    details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    details_req.send(
+        'email='+Cookies.get('email')+
+        '&nemail='+ email +
+        '&fname=' + $('#fname').val() +
+        '&lname=' + $('#lname').val() +
+        '&phone_code=' + $('#phone_code').val() +
+        '&phone=' + $('#phone').val() +
+        '&price=' + price +
+        '&street_address=' + $('#street_address').val() +
+        '&city=' + $('#city').val() +
+        '&zip=' + $('#zip').val() +
+        '&country=' + $('#country').val()
+    );
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            let response = details_req.responseText;
+
+            let cart_div = $("#cart");
+
+            if(response !== "Order Failed")
+            {
+                cart_div.empty();
+                cart_div.css('height','400px');
+                cart_div.removeClass("col-md-8");
+                cart_div.append(response);
+                $("#cartform").remove();
+                scrollToTop(1);
+            }
+            else show_popup(response);
         }
     };
 

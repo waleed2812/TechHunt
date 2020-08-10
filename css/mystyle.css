@@ -230,9 +230,6 @@ img {
 #lab,#lab1,#lab2,#lab3,#lab4{
     color: white;
 }
-#checkoutform span .btn:hover {
-    background-color: none;
-}
 
 /*#motherboard*/
     /* breadcrumb */
@@ -326,3 +323,11 @@ ul.breadcrumb li a:hover {
 
 }
 
+/*Order Placing COnfirmation*/
+
+.confirmation {
+    font-size: 100px;
+    color: #1e7e34;
+
+
+}

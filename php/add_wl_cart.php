@@ -24,6 +24,22 @@ for ($i = 0 ; $i < mysqli_num_rows($result) ; $i++)
     }
 }
 
+if($cart_wl == "cart")
+{
+    $sql = 'SELECT available,title FROM item_info WHERE ID ="' . $item_id . '"';
+
+    $result = mysqli_query($conn, $sql);
+
+    $item_info = mysqli_fetch_array($result);
+
+    if($item_info[0] <= 0)
+    {
+        echo $item_info[1].': Not Enough Units Available';
+        mysqli_close($conn);
+        die();
+    }
+}
+
 $sql = "INSERT INTO $cart_wl (email, ID) VALUES ('$email','$item_id')";
 
 if(mysqli_query($conn, $sql))
