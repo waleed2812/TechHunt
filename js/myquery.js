@@ -45,11 +45,8 @@ $(document).ready(function () {
 
         };
     }
-
-    // Checkout Form
-    $("#cartform").submit(function () {
-        return verify_name();
-    })
+    if(current_page === "cart.html") cartload();
+    if(current_page === "wishlist.html") update_wl();
 
     // Sign Up Form
     $("#signupForm").submit(function () {
@@ -93,6 +90,8 @@ $(document).ready(function () {
     // Remove Errors Attributes
     $("input").keyup(function () {
 
+        let inp = $("input");
+
         $(this).removeClass("border-danger");
         $(this).siblings("label").children('span').remove();
 
@@ -101,7 +100,6 @@ $(document).ready(function () {
 
     // Cart Remove
     $("button").click(function () {
-        let cartDiv, divToRm;
 
         if ($( this ).html() === "See Details")
         {
@@ -122,39 +120,6 @@ $(document).ready(function () {
 
             };
         }
-
-        else if ($( this ).html() === "Remove From Cart")
-        {
-            cartDiv = $("#cart div");
-            divToRm = $( this ).parent().parent()[0];
-
-            for (let i = 1 ; cartDiv[i] ; i++)
-            {
-                if (cartDiv[i] === divToRm)
-                {
-                    divToRm.remove();
-                    break;
-                }
-            }
-            calprice();
-        }
-
-        // Remove from Wishlist
-        else if ($( this ).html() === "Remove From Wishlist")
-        {
-            cartDiv = $("#wishlist div");
-            divToRm = $( this ).parent().parent()[0];
-
-            for (let i = 1 ; cartDiv[i] ; i++)
-            {
-                if (cartDiv[i] === divToRm)
-                {
-                    divToRm.remove();
-                    break;
-                }
-            }
-        }
-
 
     })
 
@@ -294,9 +259,10 @@ function verify_name()
     return true;
 }
 
-// Add to cart
-function add_to_cart(item_id)
+// Add to Wl
+function add_to_cart_wl(item_id, cart_wl)
 {
+
     if(!is_logged_in())
     {
         show_popup('Not Logged in');
@@ -307,7 +273,7 @@ function add_to_cart(item_id)
 
     let details_req = new XMLHttpRequest();
 
-    details_req.open('Get', 'php/addToCart.php?email='+email+'&item_id='+item_id);
+    details_req.open('Get', 'php/add_wl_cart.php?email='+email+'&item_id='+item_id+'&cart_wl='+cart_wl);
 
     details_req.send();
 
@@ -322,22 +288,14 @@ function add_to_cart(item_id)
 
 }
 
-// Add to Wl
-function add_to_wl(item_id)
+// Remove from cart
+function remove_from_cart_wl(item_id, cart_wl)
 {
 
 
-    if(!is_logged_in())
-    {
-        show_popup('Not Logged in');
-        return ;
-    }
-
-    let email = Cookies.get('email');
-
     let details_req = new XMLHttpRequest();
 
-    details_req.open('Get', 'php/addToWL.php?email='+email+'&item_id='+item_id);
+    details_req.open('Get', 'php/remove_wl_cart.php?ID='+item_id+'&cart_wl='+cart_wl+'&email='+Cookies.get('email'));
 
     details_req.send();
 
@@ -346,9 +304,11 @@ function add_to_wl(item_id)
         if (details_req.readyState === 4 && details_req.status === 200)
         {
             show_popup(details_req.responseText);
+            $("#"+item_id).remove();
         }
 
     };
+
 
 }
 
@@ -370,10 +330,15 @@ function show_popup(message)
     popup.fadeOut(3000);
 }
 
+//Loading Items for wishlist
+function update_wl()
+{
+    get_items("wishlist");
+}
 // Calculate Cart Price
 function cartload()
 {
-    get_items();
+    get_items("cart");
     calprice();
 }
 
@@ -408,13 +373,13 @@ function scrollToTop(scrollDuration)
 }
 
 // Get items in the cart
-function get_items()
+function get_items(cart_wl)
 {
-    let item = "waleed3072@gmail.com";
+    let email = Cookies.get('email');
 
     let details_req = new XMLHttpRequest();
 
-    details_req.open('Get', 'php/cart.php?email='+item);
+    details_req.open('Get', 'php/show_wl_cart.php?email='+email+'&cart_wl='+cart_wl);
 
     details_req.send();
 
@@ -422,7 +387,7 @@ function get_items()
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
-            $('#cart').append(details_req.responseText);
+            $('#'+cart_wl).append(details_req.responseText);
         }
 
     };

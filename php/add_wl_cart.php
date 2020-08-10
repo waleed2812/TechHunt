@@ -1,6 +1,7 @@
 <?php
 $email = $_REQUEST['email'];
 $item_id = $_REQUEST['item_id'];
+$cart_wl = $_REQUEST['cart_wl'];
 
 $conn = mysqli_connect("localhost", "root", "", "tech_hunt");
 
@@ -8,7 +9,7 @@ if(mysqli_connect_error())
 {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-$sql = "SELECT ID FROM wishlist WHERE email='$email'";
+$sql = "SELECT ID FROM $cart_wl WHERE email='$email'";
 
 
 $result = mysqli_query($conn, $sql);
@@ -23,10 +24,10 @@ for ($i = 0 ; $i < mysqli_num_rows($result) ; $i++)
     }
 }
 
-$sql = "INSERT INTO wishlist (email, ID) VALUES ('$email','$item_id')";
+$sql = "INSERT INTO $cart_wl (email, ID) VALUES ('$email','$item_id')";
 
 if(mysqli_query($conn, $sql))
-    echo "Added to Wishlist";
+    echo "Added to ".$cart_wl;
 else
     echo "Failed to Add";
 
