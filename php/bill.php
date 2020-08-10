@@ -69,9 +69,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $temp = mysqli_query($connection, $query);
     if ($temp)
-        echo '<div class="confirmation ml-5 mt-5"><p><i class="fa fa-check-circle"></i> Order Placed</p></div>';
+    {
+        echo '<div class="confirmation ml-5 mt-5" style="color: green;font-size: 100px;">
+                <p><i class="fa fa-check-circle"></i> Order Placed</p></div>';
+    }
     else
-        die("Order Failed");
+    {
+        echo '<div class="confirmation ml-5 mt-5" style="color: red;font-size: 100px;">
+                <p><i class="fa fa-check-circle"></i> Order Placed</p></div>';
+    }
 
     $query = "DELETE FROM cart WHERE email='$email'";
 

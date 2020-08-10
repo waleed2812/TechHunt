@@ -593,17 +593,49 @@ function checkout()
 
             let cart_div = $("#cart");
 
-            if(response !== "Order Failed")
-            {
-                cart_div.empty();
-                cart_div.css('height','400px');
-                cart_div.removeClass("col-md-8");
-                cart_div.append(response);
-                $("#cartform").remove();
-                scrollToTop(1);
-            }
-            else show_popup(response);
+            cart_div.empty();
+            cart_div.css('height','400px');
+            cart_div.removeClass("col-md-8");
+            cart_div.append(response);
+            $("#cartform").remove();
+            scrollToTop(1);
+
         }
     };
 
+}
+// Search Suggestions
+function searchSuggest() {
+
+    let search_suggest = $("#search_suggest");
+    let str = document.getElementById('txtSearch').value;
+    if (str.length === 0) {
+
+        search_suggest.empty();
+        search_suggest.css("border","0px");
+        return;
+
+    }
+
+    let searchReq = new XMLHttpRequest();
+
+    searchReq.open("GET", 'php/searchSuggest.php?search=' + str);
+    searchReq.send();
+
+    searchReq.onreadystatechange = function() {
+
+        if (searchReq.readyState === 4 && searchReq.status===200) {
+            if(searchReq.responseText.length === 0){
+                search_suggest.empty();
+                search_suggest.css("border","0px");
+
+            }
+
+            $('form .collapse').collapse('show');
+            console.log(searchReq.responseText);
+            search_suggest.html(searchReq.responseText);
+            search_suggest.css("border","1px solid black");
+            search_suggest.outerWidth($("#txtSearch").outerWidth());
+        }
+    };
 }
