@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Tech Hunt</title>
@@ -15,7 +15,6 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/myquery.js"></script>
     <script src="js/js.cookie.min.js"></script>
-
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
@@ -23,7 +22,7 @@
 <body onload="shop()">
 <nav id="myNavbar" class="navbar navbar-expand-md sticky-top navbar-dark bg-dark w-100">
     <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="img/logo-min.png" height="50" width="100"></a>
+        <a class="navbar-brand" href="index.html"><img alt="Logo Image" src="img/logo-min.png" height="50" width="100"></a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="fa fa-bars"></span>
         </button>
@@ -38,23 +37,22 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Products</a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="motherboard.html" class="dropdown-item">Motherboard</a>
-                        <a href="javascript:" class="dropdown-item" onclick="scrollToTop(2000)">Processors</a>
+                        <a href="motherboard.html" class="dropdown-item">Motherboards</a>
+                        <a href="processor.html" class="dropdown-item">Processors</a>
                         <a href="rams.html" class="dropdown-item">RAM</a>
                         <a href="graphic_card.html" class="dropdown-item">Graphic Processing Unit</a>
                         <a href="powersupply.html" class="dropdown-item">Power Supply Unit</a>
                         <a href="Storage.html" class="dropdown-item">Storage</a>
-                        <a href="other.html" class="dropdown-item">Others</a>
+                        <a href="javascript:" class="dropdown-item" onclick="scrollToTop(2000);">Other</a>
+
                     </div>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
                     <a href="signin.html" class="nav-link">Login/Sign up</a>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">My Account</a>
@@ -78,7 +76,7 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Product</a></li>
 
-                <li class="active">Processors</li>
+                <li class="active">Other</li>
             </ul>
         </div>
     </div>
@@ -86,7 +84,7 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="accordion" style="border-radius: 0;float: left;">
-                <button type="button" class="accordion__button ">Processors</button>
+                <button type="button" class="accordion__button ">Other</button>
                 <div class="accordion__content">
                     <hr>
                     <a href="">GIGABYTE</a>
@@ -163,7 +161,24 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <h2 style="font-family: 'Quicksand', sans-serif;">Processors</h2>
+            <h2 style="font-family: 'Quicksand', sans-serif;">Others</h2>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>Showing <b>1 - 10</b> of <b>10</b> Results</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <hr>
             <div class="container" id="shop">
 
@@ -184,7 +199,7 @@
         });
     });
 </script>
-</div>
+
 <br>
 
 <!--Top Footer Area-->

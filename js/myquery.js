@@ -479,3 +479,35 @@ function update_account_info()
 }
 
 
+function shop() {
+    let current_page = (location.pathname.split('/').slice(-1)[0]);
+    let page;
+    if (current_page === "motherboard.html") {
+        page = "Motherboard";
+    } else if (current_page === "rams.html") {
+        page = "Rams";
+    } else if (current_page === "powersupply.html") {
+        page = "Powersupply";
+    } else if (current_page === "processor.html") {
+        page = "Processor";
+    } else if (current_page === "Storage.html") {
+        page = "Storage";
+    } else if (current_page === "graphic_card.html") {
+        page = "Gpu";
+    } else {
+        page = "Other";
+    }
+    let details_req = new XMLHttpRequest();
+    details_req.open('Get', 'php/shop.php?category=' + page );
+
+    details_req.send();
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            $('#shop').append(details_req.responseText);
+        }
+
+    };
+}
