@@ -105,6 +105,7 @@ $(document).ready(function () {
     });
 
 });
+
 // Show Description
 function show_description(item_id)
 {
@@ -621,53 +622,56 @@ function checkout()
 }
 
 // Search Suggestions
-function searchSuggest() {
-
+function searchSuggest()
+{
     let search_suggest = $("#search_suggest");
-
     let str = $('#txtSearch');
-
     let searchReq = new XMLHttpRequest();
-
     searchReq.open("GET", 'php/searchSuggest.php?search=' + str.val());
     searchReq.send();
-
     searchReq.onreadystatechange = function() {
-
         if (searchReq.readyState === 4 && searchReq.status===200)
         {
-
             if(searchReq.responseText.length === 0 || str.val().length === 0)
             {
-
-                search_suggest.addClass(".collapsing");
-                search_suggest.collapse('hide');
-                search_suggest.removeClass(".collapsing");
-                search_suggest.empty();
-                search_suggest.removeClass("");
+                hide_search_suggest();
                 return ;
             }
             let rect = document.getElementById('txtSearch').getBoundingClientRect();
-
             search_suggest.css("z-index","1021");
             search_suggest.css("position","fixed");
-            search_suggest.css("left",rect.left);
-            search_suggest.css("right",rect.right);
-            search_suggest.css("top",rect.bottom);
             search_suggest.css("overflow","auto");
             search_suggest.css("max-height","100px");
-            search_suggest.outerWidth(str.outerWidth()-100);
-
-            // search_suggest.css("border","1px solid black");
+            search_suggest.css("left",rect.left +2);
+            search_suggest.css("right",rect.right +2);
+            search_suggest.css("top",rect.bottom);
+            search_suggest.outerWidth(str.outerWidth()-4);
             search_suggest.css("border-radius","0px 0px 10px 10px");
             search_suggest.addClass("bg-white");
-
             search_suggest.html(searchReq.responseText);
-
             search_suggest.addClass(".collapsing");
             search_suggest.collapse('show');
             search_suggest.removeClass(".collapsing");
 
+
+
         }
     };
 }
+
+// Function to hide Search Suggest
+function hide_search_suggest()
+{
+    let search_suggest = $("#search_suggest");
+    search_suggest.addClass(".collapsing");
+    search_suggest.collapse('hide');
+    search_suggest.removeClass(".collapsing");
+    search_suggest.removeClass();
+    search_suggest.empty();
+}
+
+// Function to hide search suggest
+$(window).on('resize click',function (){
+    hide_search_suggest();
+});
+

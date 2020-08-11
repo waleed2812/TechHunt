@@ -50,6 +50,12 @@
                     </div>
                 </li>
             </ul>
+            <form class="form-inline flex-sm-grow-1 my-sm-2">
+                <input class="form-control mr-2 flex-md-grow-1" type="text" placeholder="Search" aria-label="Search"
+                       onkeyup="searchSuggest();" autocomplete="off" id="txtSearch"
+                       aria-expanded="false" aria-controls="search_suggest" data-target="#search_suggest">
+                <button class="btn btn-outline-light" type="submit" id="cmdSearch" value="Search">Search</button>
+            </form>
 
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item">
@@ -59,6 +65,7 @@
         </div>
     </div>
 </nav>
+<div id="search_suggest" class="collapse"></div>
 <!--Sign up-->
 <form id="signupForm" action="php/reg_action.php" method="post" enctype="multipart/form-data">
     <div class="container-fluid my-3" >
