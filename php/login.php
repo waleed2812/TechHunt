@@ -1,17 +1,10 @@
 <?php
+session_start();
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 
 $conn = mysqli_connect("localhost", "root", "", "tech_hunt");
-
-if(isset($_COOKIE['email']))
-{
-    if($_COOKIE['email'] == $email)
-    {
-        echo "Already Logged in";
-        die();
-    }
-}
 
 if(mysqli_connect_error())
 {
@@ -38,8 +31,7 @@ if($row[0][0] != $password)
     die();
 }
 echo "Successfully Logged in";
-setcookie('email',$email);
 
 mysqli_close($conn);
-
+$_SESSION['email'] = $email;
 ?>

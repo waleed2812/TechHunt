@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['email']))
+{
+    echo "Session Expired";
+    die();
+}
 $connection=mysqli_connect("localhost","root","","tech_hunt");
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());

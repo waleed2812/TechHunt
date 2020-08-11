@@ -9,8 +9,6 @@ $(document).ready(function () {
 
         navbar.css('display','none');
 
-        login(Cookies.get('email'),Cookies.get('password'),Cookies.get('remember_me'));
-
         if (current_page === "signin.html" || current_page === "signup.html")
             window.location.assign("index.html");
     }
@@ -128,6 +126,7 @@ function show_description(item_id)
 // Sign in
 function login(email, password, remember_me)
 {
+
     let details_req = new XMLHttpRequest();
 
     details_req.open('POST', 'php/login.php');
@@ -147,14 +146,10 @@ function login(email, password, remember_me)
                 if(remember_me)
                 {
                     Cookies.set('email',email,{expires: 365});
-                    Cookies.set('password',password,{expires: 365});
-                    Cookies.set('remember_me',remember_me,{expires: 365});
                 }
                 else
                 {
                     Cookies.set('email',email, {expires: 1});
-                    Cookies.set('password',password, {expires: 1});
-                    Cookies.set('remember_me',remember_me, {expires: 1});
                 }
                 window.location.assign("index.html");
             }
@@ -171,34 +166,21 @@ function login(email, password, remember_me)
 function logout()
 {
     Cookies.set('email',"");
-    Cookies.set('password',"");
-    Cookies.set('remember_me',"");
 
     let details_req = new XMLHttpRequest();
 
     details_req.open('GET', 'php/logout.php');
 
-    let navbar = $('#navbarCollapse ul:nth-child(5)');
-
-    navbar.css('display','none');
-
-    navbar = $('#navbarCollapse ul:nth-child(4)');
-
-    navbar.css('display','inline');
-
-
+    window.location.assign("index.html");
 
 }
 
 // Is logged in
 function is_logged_in()
 {
+
     return (Cookies.get('email') !== "") &&
-        (Cookies.get('password') !== "") &&
-        (Cookies.get('remember_me') !== "") &&
-        (typeof (Cookies.get('email')) !== "undefined") &&
-        (typeof (Cookies.get('password')) !== "undefined") &&
-        (typeof (Cookies.get('remember_me')) !== "undefined");
+        (typeof (Cookies.get('email')) !== "undefined");
 
 }
 
@@ -280,6 +262,10 @@ function add_to_cart_wl(item_id, cart_wl)
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired") {
+                logout();
+                return ;
+            }
             show_popup(details_req.responseText);
         }
 
@@ -302,6 +288,10 @@ function remove_from_cart_wl(item_id, cart_wl)
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired") {
+                logout();
+                return ;
+            }
             show_popup(details_req.responseText);
             $("#"+item_id).remove();
             if(cart_wl === "cart") calprice();
@@ -396,6 +386,10 @@ function get_items(cart_wl)
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired") {
+                logout();
+                return ;
+            }
             $('#'+cart_wl).append(details_req.responseText);
             if(cart_wl === "cart") calprice();
         }
@@ -418,6 +412,10 @@ function get_account_info()
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired") {
+                logout();
+                return ;
+            }
             let response = details_req.responseText;
             $('body').append(response);
         }
@@ -456,6 +454,11 @@ function update_account_info()
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired")  {
+                logout();
+                return ;
+            }
+
             let response = details_req.responseText;
 
             if(response === 'Updated')
@@ -463,6 +466,7 @@ function update_account_info()
                 if(Cookies.get('remember_me') === "true")
                 {
                     Cookies.set('email',email,{expires: 365});
+
                 }
                 else
                 {
@@ -509,31 +513,15 @@ function shop() {
     };
 }
 
-// Validate Old Password
-function validate_old_password()
-{
-    let cpassword = Cookies.get('password');
-    let password = $("#opassword")
-
-    if (password.val() !== cpassword)
-    {
-        password.addClass("border-danger");
-        password.siblings("label").append(
-            '<span style="color:red"> (Wrong Old Password)</span>');
-        return false;
-    }
-
-    return true;
-}
 
 // Update Account Password
 function update_password()
 {
     if(!validate_password()) return ;
 
-    if(!validate_old_password()) return ;
-
     let password = $('#password').val();
+
+    let opassword = $("#opassword").val();
 
     let details_req = new XMLHttpRequest();
 
@@ -541,7 +529,7 @@ function update_password()
 
     details_req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    details_req.send( 'email='+Cookies.get('email') +'&password='+ password);
+    details_req.send( 'email='+Cookies.get('email') +'&password='+ password+'&opassword='+opassword);
 
     details_req.onreadystatechange = function() {
 
@@ -549,16 +537,25 @@ function update_password()
         {
             let response = details_req.responseText;
 
-            if(response === 'Updated')
+            if(response === "Session Expired") {
+                logout();
+                return ;
+            }
+
+            else if(response === "Wrong Old Password")
             {
-                if(Cookies.get('remember_me') === "true")
-                {
-                    Cookies.set('password',password,{expires: 365});
-                }
-                else
-                {
-                    Cookies.set('password',password, {expires: 1});
-                }
+                let old_pass = $("#opassword");
+
+                old_pass.addClass("border-danger");
+                old_pass.siblings("label").append(
+                    '<span style="color:red"> ('+response+')</span>');
+                return ;
+            }
+            else if(response === "Updated")
+            {
+                $("#opassword").val("");
+                $("#password").val("");
+                $("#cpassword").val("");
             }
 
             show_popup(response);
@@ -605,6 +602,11 @@ function checkout()
 
         if (details_req.readyState === 4 && details_req.status === 200)
         {
+            if(details_req.responseText === "Session Expired")  {
+                logout();
+                return ;
+            }
+
             let response = details_req.responseText;
 
             let cart_div = $("#cart");

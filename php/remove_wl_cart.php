@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['email']))
+{
+    echo "Session Expired";
+    die();
+}
 $email = $_REQUEST['email'];
 $ID = $_REQUEST['ID'];
 $cart_wl = $_REQUEST['cart_wl'];

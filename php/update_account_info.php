@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['email']))
+{
+    echo "Session Expired";
+    die();
+}
 $email = $_POST['email'];
 $oemail = $_POST['oemail'];
 $fname = $_POST['fname'];
