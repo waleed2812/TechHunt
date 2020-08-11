@@ -71,6 +71,7 @@ echo '
 
 </script>';
 
+mysqli_stmt_close($selectresult);
 mysqli_close($conn);
 
 ?>
