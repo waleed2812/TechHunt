@@ -12,7 +12,7 @@ if(strlen($searchterm) > 0)
         die("ERROR: Could not connect. " . mysqli_connect_error());
     }
 
-    $sql = "SELECT title FROM item_info WHERE title LIKE '$searchterm%'";
+    $sql = "SELECT ID,title FROM item_info WHERE title LIKE '$searchterm%'";
 
     $selectresult = mysqli_query($conn, $sql);
 
@@ -21,7 +21,7 @@ if(strlen($searchterm) > 0)
     {
         while($row = mysqli_fetch_array($selectresult))
         {
-            echo "<a class='dropdown-item' href='#'>".$row["title"]."</a>";
+            echo "<a class='item dropdown-item' href='#' onclick='show_description(".$row["ID"].")'>".$row["title"]."</a>";
         }
     }
 //    echo "</ul>";

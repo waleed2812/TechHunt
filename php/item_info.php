@@ -20,12 +20,12 @@ $selectresult = mysqli_fetch_array(mysqli_query($conn, $sql));
         <button class="btn btn-danger ml-auto" onclick="close_description()"><i class="fa fa-close"></i></button>
     </div>
     <div class="row p-5">
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <figure>
                 <img src="'.$selectresult[6].'" width="100%" height="300px">
             </figure>
         </div>
-        <div class="col-sm-5" >
+        <div class="col-md-5" >
             <a href="">'.$selectresult[1].'</a>
             <div>
                 <p><span style="color: gray;">Category: </span>'.$selectresult[3].'</p>
@@ -36,7 +36,7 @@ $selectresult = mysqli_fetch_array(mysqli_query($conn, $sql));
                 </p>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
             <p><span style="color: darkgray;">Availability: </span> '.$selectresult[5].'</p>
             <a class="btn btn-warning" onclick="add_to_cart_wl('.$selectresult[0].',\'cart\')">
                 Add to Cart <i class="fa fa-shopping-cart"></i>

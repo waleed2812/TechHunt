@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     if(is_logged_in())
     {
-        let navbar = $('#navbarCollapse ul:nth-child(3)');
+        let navbar = $('#navbarCollapse ul:nth-child(4)');
 
         navbar.css('display','none');
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
         if (current_page === "cart.html" || current_page === "account.html" || current_page === "wishlist.html")
             window.location.assign("index.html");
 
-        let navbar = $('#navbarCollapse ul:nth-child(4)');
+        let navbar = $('#navbarCollapse ul:nth-child(5)');
 
         navbar.css('display','none');
     }
@@ -89,25 +89,40 @@ $(document).ready(function () {
         {
             let item = [this.id];
 
-            let details_req = new XMLHttpRequest();
+            show_description(item);
 
-            details_req.open('Get', 'php/item_info.php?id='+item[0]);
-
-            details_req.send();
-
-            details_req.onreadystatechange = function() {
-
-                if (details_req.readyState === 4 && details_req.status === 200)
-                {
-                    $('body').append(details_req.responseText);
-                }
-
-            };
         }
 
     })
 
+
+    // Change Search Suggest Size If Window Resizes
+    $("#txtSearch").on('focusout','focusin',function () {
+        let search_suggest = $("#search_suggest");
+        search_suggest.empty();
+        search_suggest.removeClass("");
+        search_suggest.collapse('hide');
+    });
+
 });
+// Show Description
+function show_description(item_id)
+{
+    let details_req = new XMLHttpRequest();
+
+    details_req.open('Get', 'php/item_info.php?id='+item_id);
+
+    details_req.send();
+
+    details_req.onreadystatechange = function() {
+
+        if (details_req.readyState === 4 && details_req.status === 200)
+        {
+            $('body').append(details_req.responseText);
+        }
+
+    };
+}
 
 // Sign in
 function login(email, password, remember_me)
@@ -162,11 +177,11 @@ function logout()
 
     details_req.open('GET', 'php/logout.php');
 
-    let navbar = $('#navbarCollapse ul:nth-child(4)');
+    let navbar = $('#navbarCollapse ul:nth-child(5)');
 
     navbar.css('display','none');
 
-    navbar = $('#navbarCollapse ul:nth-child(3)');
+    navbar = $('#navbarCollapse ul:nth-child(4)');
 
     navbar.css('display','inline');
 
@@ -604,38 +619,55 @@ function checkout()
     };
 
 }
+
 // Search Suggestions
 function searchSuggest() {
 
     let search_suggest = $("#search_suggest");
-    let str = document.getElementById('txtSearch').value;
-    if (str.length === 0) {
 
-        search_suggest.empty();
-        search_suggest.css("border","0px");
-        return;
-
-    }
+    let str = $('#txtSearch');
 
     let searchReq = new XMLHttpRequest();
 
-    searchReq.open("GET", 'php/searchSuggest.php?search=' + str);
+    searchReq.open("GET", 'php/searchSuggest.php?search=' + str.val());
     searchReq.send();
 
     searchReq.onreadystatechange = function() {
 
-        if (searchReq.readyState === 4 && searchReq.status===200) {
-            if(searchReq.responseText.length === 0){
+        if (searchReq.readyState === 4 && searchReq.status===200)
+        {
+
+            if(searchReq.responseText.length === 0 || str.val().length === 0)
+            {
+
+                search_suggest.addClass(".collapsing");
+                search_suggest.collapse('hide');
+                search_suggest.removeClass(".collapsing");
                 search_suggest.empty();
-                search_suggest.css("border","0px");
-
+                search_suggest.removeClass("");
+                return ;
             }
+            let rect = document.getElementById('txtSearch').getBoundingClientRect();
 
-            $('form .collapse').collapse('show');
-            console.log(searchReq.responseText);
+            search_suggest.css("z-index","1021");
+            search_suggest.css("position","fixed");
+            search_suggest.css("left",rect.left);
+            search_suggest.css("right",rect.right);
+            search_suggest.css("top",rect.bottom);
+            search_suggest.css("overflow","auto");
+            search_suggest.css("max-height","100px");
+            search_suggest.outerWidth(str.outerWidth()-100);
+
+            // search_suggest.css("border","1px solid black");
+            search_suggest.css("border-radius","0px 0px 10px 10px");
+            search_suggest.addClass("bg-white");
+
             search_suggest.html(searchReq.responseText);
-            search_suggest.css("border","1px solid black");
-            search_suggest.outerWidth($("#txtSearch").outerWidth());
+
+            search_suggest.addClass(".collapsing");
+            search_suggest.collapse('show');
+            search_suggest.removeClass(".collapsing");
+
         }
     };
 }
