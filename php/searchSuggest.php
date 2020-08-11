@@ -12,20 +12,36 @@ if(strlen($searchterm) > 0)
         die("ERROR: Could not connect. " . mysqli_connect_error());
     }
 
+
+    $searchterm = mysqli_real_escape_string($conn,$searchterm);
+
     $sql = "SELECT ID,title FROM item_info WHERE title LIKE '$searchterm%'";
 
-    $selectresult = mysqli_query($conn, $sql);
+    // Preparing Template
+    $selectresult = mysqli_prepare($conn,$sql);
 
-//    echo "<ul class='pl-1'>";
-    if(mysqli_num_rows($selectresult) > 0)
+    //Binding Result
+    $ID = "";$title = "";
+    mysqli_stmt_bind_result($selectresult, $ID,$title);
+
+    // Executing Statement
+    mysqli_stmt_execute($selectresult);
+
+    //Storing Result
+    mysqli_stmt_store_result($selectresult);
+
+    if(mysqli_stmt_num_rows($selectresult) > 0)
     {
-        while($row = mysqli_fetch_array($selectresult))
+        // Fetching Result
+        while (mysqli_stmt_fetch($selectresult))
         {
-            echo "<a class='item dropdown-item' href='#' onclick='show_description(".$row["ID"].")'>".$row["title"]."</a>";
+            echo "<a class='item dropdown-item' href='#' onclick='show_description(".$ID.")'>".$title."</a>";
         }
+
     }
-//    echo "</ul>";
+
     mysqli_close($conn);
+    mysqli_stmt_close($selectresult);
 
 }
 
