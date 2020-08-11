@@ -611,9 +611,7 @@ function checkout()
             }
 
             let response = details_req.responseText;
-
             let cart_div = $("#cart");
-
             cart_div.empty();
             cart_div.css('height','400px');
             cart_div.removeClass("col-md-8");
