@@ -9,7 +9,7 @@ if(mysqli_connect_error())
 }
 $item_id = mysqli_real_escape_string($conn,$item_id) ;
 
-$sql = "SELECT * FROM item_info WHERE id ='$item_id' ";
+$sql = "SELECT * FROM item_info WHERE id =? ";
 
 $selectresult = mysqli_prepare($conn,$sql);
 
@@ -17,8 +17,8 @@ mysqli_stmt_bind_param($selectresult,"i",$item_id);
 
 //Binding Result
 $result = array();
-mysqli_stmt_bind_result($selectresult, $result[0],$result[1],$result[2],$result[3],$result[4],$result[5],$result[6],
-    $result[7]);
+mysqli_stmt_bind_result($selectresult,
+    $result[0],$result[1],$result[2],$result[3],$result[4],$result[5],$result[6],$result[7]);
 
 // Executing Statement
 mysqli_stmt_execute($selectresult);

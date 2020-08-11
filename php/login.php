@@ -32,14 +32,15 @@ mysqli_stmt_execute($selectresult);
 //Storing Result
 mysqli_stmt_store_result($selectresult);
 
+// Fetching Result
+mysqli_stmt_fetch($selectresult);
+
 if(mysqli_stmt_num_rows($selectresult) <= 0)
 {
     echo "Email Does Not Exists";
     mysqli_stmt_close($selectresult);
     die();
 }
-// Fetching Result
-mysqli_stmt_fetch($selectresult);
 
 if($result != $password)
 {
