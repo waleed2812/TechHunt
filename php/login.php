@@ -38,8 +38,9 @@ if(mysqli_stmt_num_rows($selectresult) <= 0)
     mysqli_stmt_close($selectresult);
     die();
 }
-
+// Fetching Result
 mysqli_stmt_fetch($selectresult);
+
 if($result != $password)
 {
     echo "Password Does Not Match";
