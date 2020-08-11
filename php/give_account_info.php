@@ -13,10 +13,30 @@ if(mysqli_connect_error())
 {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-$sql = "SELECT * FROM user_info WHERE email='$email'";
+$email = mysqli_real_escape_string($conn,$_REQUEST['email']);
 
+$sql = "SELECT * FROM user_info WHERE email=?";
 
-$result =mysqli_fetch_array(mysqli_query($conn, $sql));
+// Preparing Template
+$selectresult = mysqli_prepare($conn,$sql);
+
+// Binding Variables
+mysqli_stmt_bind_param($selectresult,"s",$email);
+
+//Binding Result
+$result = array();
+mysqli_stmt_bind_result($selectresult, $result[0],$result[1],$result[2],$result[3],$result[4],$result[5],
+    $result[6],$result[7],$result[8],$result[9],$result[10]);
+
+// Executing Statement
+mysqli_stmt_execute($selectresult);
+
+//Storing Result
+mysqli_stmt_store_result($selectresult);
+
+// Fetching Result
+mysqli_stmt_fetch($selectresult);
+
 $gender = "";
 if($result[5] == "M")
     $gender = 'male';
