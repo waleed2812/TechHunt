@@ -27,12 +27,12 @@ mysqli_stmt_execute($selectresult);
 mysqli_stmt_store_result($selectresult);
 
 $result = mysqli_query($conn, $sql);
-////$row = mysqli_fetch_array($result);
-//echo $row[0];
-echo "\n";
-$count = 0 ;
+
 if (mysqli_stmt_num_rows($selectresult)>0){
     while (mysqli_stmt_fetch($selectresult)){
+        $avail = "Not Available";
+        if($row[5] > 0)
+            $avail = "In Stock";
         echo '
         <div class="row">
                     <div class="col-sm-4">
@@ -52,7 +52,7 @@ if (mysqli_stmt_num_rows($selectresult)>0){
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <p><span style="color: lightgrey;">Availability: </span> '.$row[5].'</p>
+                        <p><span style="color: lightgrey;">Availability: </span> '.$avail.'</p>
                         <p><span style="color: lightgrey;">Price: </span> '.$row[4].'</p>
                         <a class="btn btn-light" style="background: yellow;" onclick="add_to_cart_wl('.$row[0].',\'cart\')">Add to Cart <i class="fa fa-shopping-cart"></i></a>
                         <br><br>

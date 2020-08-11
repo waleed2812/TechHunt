@@ -579,7 +579,29 @@ function checkout()
         return ;
     }
 
-    let email = $('#email').val();
+    let email = $('#email');
+    let fname = $('#fname');
+    let lname = $('#lname');
+    let phone_code = $('#phone_code');
+    let phone = $('#phone');
+    let street_address = $('#street_address');
+    let city = $('#city');
+    let zip = $('#zip');
+    let country = $('#country');
+
+    if(email.val().length === 0 ||
+        fname.val().length === 0 ||
+        lname.val().length === 0 ||
+        street_address.val().length === 0 ||
+        city.val().length === 0 ||
+        phone.val() === 0 ||
+        zip.val() === 0 ||
+        country.val().length === 0)
+    {
+        show_popup("Fill The Form");
+        return ;
+    }
+
 
     let details_req = new XMLHttpRequest();
 
@@ -589,16 +611,16 @@ function checkout()
 
     details_req.send(
         'email='+Cookies.get('email')+
-        '&nemail='+ email +
-        '&fname=' + $('#fname').val() +
-        '&lname=' + $('#lname').val() +
-        '&phone_code=' + $('#phone_code').val() +
-        '&phone=' + $('#phone').val() +
+        '&nemail='+ email.val() +
+        '&fname=' + fname.val() +
+        '&lname=' + lname.val() +
+        '&phone_code=' + phone_code.val() +
+        '&phone=' + phone.val() +
         '&price=' + price +
-        '&street_address=' + $('#street_address').val() +
-        '&city=' + $('#city').val() +
-        '&zip=' + $('#zip').val() +
-        '&country=' + $('#country').val()
+        '&street_address=' + street_address.val() +
+        '&city=' + city.val() +
+        '&zip=' + zip.val() +
+        '&country=' + country.val()
     );
 
     details_req.onreadystatechange = function() {
