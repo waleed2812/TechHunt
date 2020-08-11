@@ -6,14 +6,33 @@ if(mysqli_connect_error())
 {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-$sql = "SELECT * FROM item_info where category = '$category'";
+
+$sql = "SELECT * FROM item_info where category =?";
+
+$category = mysqli_real_escape_string($conn,$category);
+
+$selectresult = mysqli_prepare($conn,$sql);
+
+// Binding Var
+mysqli_stmt_bind_param($selectresult,'s',$category);
+
+//Binding Result
+$row = array();
+mysqli_stmt_bind_result($selectresult, $row[0],$row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7]);
+
+// Executing Statement
+mysqli_stmt_execute($selectresult);
+
+//Storing Result
+mysqli_stmt_store_result($selectresult);
+
 $result = mysqli_query($conn, $sql);
 ////$row = mysqli_fetch_array($result);
 //echo $row[0];
 echo "\n";
 $count = 0 ;
-if (mysqli_num_rows($result)>0){
-    while ($row = mysqli_fetch_array($result)){
+if (mysqli_stmt_num_rows($selectresult)>0){
+    while (mysqli_stmt_fetch($selectresult)){
         echo '
         <div class="row">
                     <div class="col-sm-4">
