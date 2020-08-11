@@ -98,6 +98,6 @@ else
     echo "Failed to Add";
 
 mysqli_close($conn);
-
+mysqli_stmt_close($selectresult);
 
 ?>

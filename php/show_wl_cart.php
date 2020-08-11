@@ -86,5 +86,5 @@ for( $i = 0 ; $i < $item_ids_count ; $i++ ){
 
     mysqli_stmt_close($selectresult2);
 }
-
+mysqli_close($conn);
 ?>

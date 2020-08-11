@@ -49,7 +49,7 @@ if($result != $password)
     die();
 }
 echo "Successfully Logged in";
-
+mysqli_close($conn);
 mysqli_stmt_close($selectresult);
 $_SESSION['email'] = $email;
 ?>

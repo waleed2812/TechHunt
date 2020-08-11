@@ -70,5 +70,6 @@ if($result[5] <= 0)
 
 
 mysqli_close($conn);
+mysqli_stmt_close($selectresult);
 
 ?>

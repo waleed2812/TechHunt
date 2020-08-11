@@ -292,9 +292,12 @@ function remove_from_cart_wl(item_id, cart_wl)
                 logout();
                 return ;
             }
+            if(details_req.responseText === "Removed From "+cart_wl)
+            {
+                $("#"+item_id).remove();
+                if(cart_wl === "cart") calprice();
+            }
             show_popup(details_req.responseText);
-            $("#"+item_id).remove();
-            if(cart_wl === "cart") calprice();
         }
 
     };
